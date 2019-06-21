@@ -3,7 +3,6 @@ import { graphql, Link } from "gatsby"
 import Img from "gatsby-image"
 
 import Layout from "../components/layout"
-import SEO from "../components/SEO"
 
 export const query = graphql`
   query($slug: String!) {
@@ -49,7 +48,6 @@ const ProjectTemplate = props => {
   ))
   return (
     <Layout>
-      {/* <SEO title={props.pageContext.title} /> */}
       <div>
         <h1>Is tis working?</h1>
         <ul>{renderImageList}</ul>
