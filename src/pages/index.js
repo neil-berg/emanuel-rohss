@@ -1,16 +1,50 @@
 import React from "react"
-import { Link } from "gatsby"
+import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
 import Image from "../components/image"
 import SEO from "../components/seo"
 
-const IndexPage = () => (
+export const query = graphql`
+  {
+    allAirtable(
+      filter: { table: { eq: "Projects" } }
+      sort: { order: ASC, fields: data___order }
+    ) {
+      nodes {
+        data {
+          slug
+          press_release {
+            filename
+          }
+          cover_photo {
+            url
+          }
+          title
+        }
+        recordId
+      }
+    }
+  }
+`
+
+const IndexPage = ({ data }) => (
   <Layout>
     <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
+    <ul>
+      {data.allAirtable.nodes.map(node => (
+        <li key={node.recordId}>
+          <Link to={node.data.slug}>
+            <p>{node.data.title}</p>
+            <img
+              style={{ width: "100px" }}
+              src={node.data.cover_photo[0].url}
+            />
+          </Link>
+        </li>
+      ))}
+    </ul>
+
     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
       <Image />
     </div>
