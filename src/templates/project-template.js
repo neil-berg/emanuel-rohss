@@ -49,7 +49,7 @@ const ProjectTemplate = props => {
   ))
   return (
     <Layout>
-      <SEO title={props.pageContext.title} />
+      {/* <SEO title={props.pageContext.title} /> */}
       <div>
         <h1>Is tis working?</h1>
         <ul>{renderImageList}</ul>
