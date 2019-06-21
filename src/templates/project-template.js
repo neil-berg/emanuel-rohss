@@ -2,6 +2,7 @@ import React from "react"
 import { graphql, Link } from "gatsby"
 import Img from "gatsby-image"
 
+import SEO from "../components/seo"
 import Layout from "../components/layout"
 
 export const query = graphql`
@@ -16,7 +17,7 @@ export const query = graphql`
               dimensions
               location
               materials
-              title
+              asset_title
               attachment {
                 localFiles {
                   childImageSharp {
@@ -43,15 +44,17 @@ const ProjectTemplate = props => {
         alt="asset.data.title"
         fluid={asset.data.attachment.localFiles[0].childImageSharp.fluid}
       />
-      <p>{asset.data.title}</p>
+      <p>{asset.data.asset_title}</p>
     </li>
   ))
   return (
     <Layout>
-      <div>
-        <h1>Is tis working?</h1>
-        <ul>{renderImageList}</ul>
-      </div>
+      <SEO
+        title={props.pageContext.projectTitle}
+        description="a simple description"
+      />
+      <h1>{props.pageContext.projectTitle}</h1>
+      <ul>{renderImageList}</ul>
     </Layout>
   )
 }

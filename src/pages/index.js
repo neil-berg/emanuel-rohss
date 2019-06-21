@@ -20,7 +20,7 @@ export const query = graphql`
           cover_photo {
             url
           }
-          title
+          project_title
         }
         recordId
       }
@@ -35,7 +35,7 @@ const IndexPage = ({ data }) => (
       {data.allAirtable.nodes.map(node => (
         <li key={node.recordId}>
           <Link to={node.data.slug}>
-            <p>{node.data.title}</p>
+            <p>{node.data.project_title}</p>
             <img
               style={{ width: "100px" }}
               src={node.data.cover_photo[0].url}

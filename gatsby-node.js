@@ -10,7 +10,7 @@ exports.createPages = async ({ actions, graphql }) => {
         nodes {
           data {
             slug
-            title
+            project_title
           }
         }
       }
@@ -23,7 +23,7 @@ exports.createPages = async ({ actions, graphql }) => {
       component: path.resolve(`./src/templates/project-template.js`),
       context: {
         slug: project.data.slug,
-        title: project.data.title,
+        projectTitle: project.data.project_title,
       },
     })
   })
