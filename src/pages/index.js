@@ -55,7 +55,6 @@ const ProjectWrapper = styled.div`
 
   .project-item__link {
     text-decoration: none;
-    text-align: center;
     padding: 0;
     color: inherit;
   }
@@ -64,6 +63,7 @@ const ProjectWrapper = styled.div`
     padding: 0;
     margin: 0 0 0.75rem 0;
     font-size: 1.25em;
+    z-index: 1000;
   }
 `
 

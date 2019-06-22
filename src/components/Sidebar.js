@@ -21,7 +21,7 @@ const SidebarWrapper = styled.div`
   }
 
   .clickbar {
-    background: blue;
+    background: #002b72;
     color: white;
     width: 50px;
     display: flex;
@@ -34,6 +34,9 @@ const SidebarWrapper = styled.div`
     text-orientation: upright;
     margin: 0;
     padding: 0;
+    font-family: "Montserrat", sans-serif;
+    text-transform: uppercase;
+    font-size: 1.35em;
   }
 `
 

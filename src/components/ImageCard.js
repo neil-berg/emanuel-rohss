@@ -4,7 +4,8 @@ import styled from "styled-components"
 
 const CardWrapper = styled.div`
   margin: 0 auto;
-  padding: 0;
+  padding: 0 0 2.25rem 0;
+  line-height: 1.1em;
 
   .image__title,
   .image__year,
@@ -13,9 +14,12 @@ const CardWrapper = styled.div`
   .image__view-location {
     margin: 0;
     padding: 0;
+    color: #6d6e70;
+    font-size: 0.85em;
   }
   .image__title {
-    color: blue;
+    color: black;
+    padding-top: 0.5rem;
   }
 `
 

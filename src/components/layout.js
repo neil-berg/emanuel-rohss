@@ -10,8 +10,14 @@ import "../styles/layout.css"
 const Footer = styled.footer`
   margin: 0 auto;
   width: 100%;
-  padding: 0 1rem 0 calc(50px + 1rem);
+  padding: 1rem 1rem 1rem calc(50px + 1rem);
   text-align: center;
+  border-top: 1px lightgrey solid;
+
+  a {
+    text-decoration: none;
+    color: blue;
+  }
 `
 
 const Layout = ({ children }) => {
@@ -27,7 +33,6 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      {/* <Header siteTitle={data.site.siteMetadata.title} /> */}
       <Sidebar />
       <div
         style={{
