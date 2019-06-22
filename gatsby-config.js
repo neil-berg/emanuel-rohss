@@ -10,6 +10,7 @@ module.exports = {
     `gatsby-plugin-react-helmet`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    `gatsby-plugin-styled-components`,
     {
       resolve: `gatsby-source-airtable`,
       options: {
@@ -24,6 +25,7 @@ module.exports = {
             baseId: "app4AeEFIvxVmE8jA",
             tableName: "Projects",
             tableLinks: ["Assets"],
+            mapping: { cover_photo: `fileNode` },
           },
         ],
       },
@@ -35,7 +37,6 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
-
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,

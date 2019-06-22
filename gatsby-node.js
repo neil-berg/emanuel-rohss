@@ -5,7 +5,7 @@ exports.createPages = async ({ actions, graphql }) => {
     query {
       allAirtable(
         filter: { table: { eq: "Projects" } }
-        sort: { order: ASC, fields: data___order }
+        sort: { order: ASC, fields: data___project_order }
       ) {
         nodes {
           data {

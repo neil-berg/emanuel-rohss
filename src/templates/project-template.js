@@ -1,9 +1,10 @@
 import React from "react"
-import { graphql, Link } from "gatsby"
-import Img from "gatsby-image"
+import { graphql } from "gatsby"
+import styled from "styled-components"
 
 import SEO from "../components/seo"
 import Layout from "../components/layout"
+import ImageCard from "../components/ImageCard"
 
 export const query = graphql`
   query($slug: String!) {
@@ -35,16 +36,18 @@ export const query = graphql`
   }
 `
 
+const TemplateWrapper = styled.div`
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 1.5rem 0 calc(50px + 1.5rem);
+`
+
 const ProjectTemplate = props => {
   const assets = props.data.allAirtable.nodes[0].data.Assets
 
   const renderImageList = assets.map((asset, i) => (
     <li key={i}>
-      <Img
-        alt="asset.data.title"
-        fluid={asset.data.attachment.localFiles[0].childImageSharp.fluid}
-      />
-      <p>{asset.data.asset_title}</p>
+      <ImageCard asset={asset} />
     </li>
   ))
   return (
@@ -53,8 +56,12 @@ const ProjectTemplate = props => {
         title={props.pageContext.projectTitle}
         description="a simple description"
       />
-      <h1>{props.pageContext.projectTitle}</h1>
-      <ul>{renderImageList}</ul>
+      <TemplateWrapper>
+        <h1>{props.pageContext.projectTitle}</h1>
+        <ul style={{ maxWidth: "1000px", margin: "0 auto" }}>
+          {renderImageList}
+        </ul>
+      </TemplateWrapper>
     </Layout>
   )
 }
