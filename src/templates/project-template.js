@@ -10,6 +10,7 @@ import {
 import SEO from "../components/seo"
 import Layout from "../components/layout"
 import ImageCard from "../components/ImageCard"
+import VideoCard from "../components/VideoCard"
 
 export const query = graphql`
   query($slug: String!) {
@@ -117,16 +118,10 @@ const ProjectTemplate = props => {
         <h1 className="project__title">{props.pageContext.projectTitle}</h1>
         <ul className="project__image-list">{renderImageList}</ul>
         {videos && (
-          <ul>
+          <ul className="project__video-list">
             {videos.map((video, i) => (
-              <li key={i}>
-                <video
-                  width="100%"
-                  max-height="100%"
-                  src={video.data.attachment.localFiles[0].url}
-                  controls
-                  style={{ outline: "0" }}
-                ></video>
+              <li className="project__video-item" key={i}>
+                <VideoCard video={video} />
               </li>
             ))}
           </ul>

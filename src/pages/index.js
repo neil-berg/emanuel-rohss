@@ -17,7 +17,7 @@ export const query = graphql`
           cover_photo {
             localFiles {
               childImageSharp {
-                fluid(maxWidth: 500) {
+                fluid(maxWidth: 1000) {
                   ...GatsbyImageSharpFluid_tracedSVG
                 }
               }
@@ -43,7 +43,7 @@ const ProjectWrapper = styled.div`
   padding: 1rem 1.5rem 1rem calc(50px + 1.5rem);
 
   .project-list {
-    max-width: 500px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 0;
   }
@@ -62,7 +62,7 @@ const ProjectWrapper = styled.div`
   .project-item__title {
     padding: 0;
     margin: 0 0 0.75rem 0;
-    font-size: 1.25em;
+    font-size: 2em;
     z-index: 1000;
   }
 `
