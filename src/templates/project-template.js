@@ -16,14 +16,13 @@ export const query = graphql`
     allAirtable(filter: { data: { slug: { eq: $slug } } }) {
       nodes {
         data {
-          Assets {
+          Images {
             data {
-              view
-              year(formatString: "YYYY")
               dimensions
+              view
+              image_title
               location
               materials
-              asset_title
               attachment {
                 localFiles {
                   childImageSharp {
@@ -33,6 +32,20 @@ export const query = graphql`
                   }
                 }
               }
+            }
+          }
+          Videos {
+            data {
+              attachment {
+                localFiles {
+                  url
+                }
+              }
+              video_title
+              year(formatString: "YYYY")
+              materials
+              length
+              dimensions
             }
           }
         }
@@ -52,7 +65,7 @@ const TemplateWrapper = styled.div`
     border-bottom: 1px lightgrey solid;
   }
 
-  .project__asset-item:first-child {
+  .project__image-item:first-child {
     margin-top: 1rem;
   }
 
@@ -84,13 +97,15 @@ const TemplateWrapper = styled.div`
 `
 
 const ProjectTemplate = props => {
-  const assets = props.data.allAirtable.nodes[0].data.Assets
+  const images = props.data.allAirtable.nodes[0].data.Images
+  const videos = props.data.allAirtable.nodes[0].data.Videos
 
-  const renderImageList = assets.map((asset, i) => (
-    <li className="project__asset-item" key={i}>
-      <ImageCard asset={asset} />
+  const renderImageList = images.map((image, i) => (
+    <li className="project__image-item" key={i}>
+      <ImageCard image={image} />
     </li>
   ))
+
   return (
     <Layout>
       <SEO
@@ -100,7 +115,22 @@ const ProjectTemplate = props => {
       <TemplateWrapper>
         <Link to="/">Return to home page</Link>
         <h1 className="project__title">{props.pageContext.projectTitle}</h1>
-        <ul className="project__asset-list">{renderImageList}</ul>
+        <ul className="project__image-list">{renderImageList}</ul>
+        {videos && (
+          <ul>
+            {videos.map((video, i) => (
+              <li key={i}>
+                <video
+                  width="100%"
+                  max-height="100%"
+                  src={video.data.attachment.localFiles[0].url}
+                  controls
+                  style={{ outline: "0" }}
+                ></video>
+              </li>
+            ))}
+          </ul>
+        )}
         <div className="pagination">
           {props.pageContext.previous && (
             <div className="pagination__previous">

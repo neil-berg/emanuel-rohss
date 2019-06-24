@@ -23,19 +23,19 @@ const CardWrapper = styled.div`
   }
 `
 
-const ImageCard = ({ asset }) => (
+const ImageCard = ({ image }) => (
   <CardWrapper>
     <Img
-      alt="asset.data.title"
-      fluid={asset.data.attachment.localFiles[0].childImageSharp.fluid}
+      alt={image.data.image_title}
+      fluid={image.data.attachment.localFiles[0].childImageSharp.fluid}
     />
-    <p className="image__title">{asset.data.asset_title}</p>
-    <p className="image__year">{asset.data.year}</p>
-    <p className="image__materials">{asset.data.materials}</p>
-    <p className="image__dimensions">{asset.data.dimensions}</p>
-    {asset.data.view && asset.data.location && (
+    <p className="image__title">{image.data.image_title}</p>
+    <p className="image__year">{image.data.year}</p>
+    <p className="image__materials">{image.data.materials}</p>
+    <p className="image__dimensions">{image.data.dimensions}</p>
+    {image.data.view && image.data.location && (
       <p className="image__view-location">
-        {asset.data.view} | {asset.data.location}
+        {image.data.view} | {image.data.location}
       </p>
     )}
   </CardWrapper>

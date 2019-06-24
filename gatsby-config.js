@@ -18,13 +18,18 @@ module.exports = {
         tables: [
           {
             baseId: "app4AeEFIvxVmE8jA",
-            tableName: "Assets",
+            tableName: "Images",
+            mapping: { attachment: `fileNode` },
+          },
+          {
+            baseId: "app4AeEFIvxVmE8jA",
+            tableName: "Videos",
             mapping: { attachment: `fileNode` },
           },
           {
             baseId: "app4AeEFIvxVmE8jA",
             tableName: "Projects",
-            tableLinks: ["Assets"],
+            tableLinks: ["Images", "Videos"],
             mapping: { cover_photo: `fileNode` },
           },
         ],
