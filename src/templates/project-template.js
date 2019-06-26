@@ -100,17 +100,34 @@ const TemplateWrapper = styled.div`
 `
 
 const ProjectTemplate = props => {
+  // Local state for modals on any project page
+  // modalSrc is the src attribute for a clicked image
+  // which is passed as a child img to <Modal />
+  // locationY tracks how far down the user has scrolled
+  // so that upon closing the modal, the user is returned
+  // to the last place they scrolled to. This is necessary
+  // since the window scrolls to the top (0,0) and freezes
+  // there while the modal is shown in fullscreen mode
   const [showModal, setShowModal] = useState(false)
   const [modalSrc, setModalSrc] = useState(null)
+  const [locationY, setLocationY] = useState(0)
 
   const handleImageClick = e => {
-    //console.log(e.target, e.pageY)
-    setShowModal(!showModal)
+    setShowModal(true)
     setModalSrc(e.target.src)
+    setLocationY(window.scrollY)
     window.scrollTo(0, 0)
-    // window.scrollTo(0, e.pageY)
+    document.body.classList.add("modal-open")
   }
 
+  const handleCloseClick = () => {
+    setShowModal(false)
+    window.scrollTo(0, locationY)
+    document.body.classList.remove("modal-open")
+  }
+
+  // Extract image and video nodes from Airtable
+  // Videos may be null for a given project
   const images = props.data.allAirtable.nodes[0].data.Images
   const videos = props.data.allAirtable.nodes[0].data.Videos
 
@@ -184,18 +201,15 @@ const ProjectTemplate = props => {
       </Layout>
       {showModal && (
         <Portal>
-          <div
-            style={{
-              height: "100vh",
-              marginLeft: "50px",
-            }}
-            onClick={() => setShowModal(!showModal)}
-          >
-            <button>
-              <FontAwesomeIcon icon={faTimes} color="white" size="2x" />
-            </button>
-            <img src={modalSrc} />
-          </div>
+          <button>
+            <FontAwesomeIcon
+              icon={faTimes}
+              color="white"
+              size="2x"
+              onClick={handleCloseClick}
+            />
+          </button>
+          <img src={modalSrc} />
         </Portal>
       )}
     </>
