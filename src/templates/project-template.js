@@ -1,16 +1,18 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { graphql, Link } from "gatsby"
 import styled from "styled-components"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faLongArrowAltRight,
   faLongArrowAltLeft,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons"
 
 import SEO from "../components/seo"
 import Layout from "../components/layout"
 import ImageCard from "../components/ImageCard"
 import VideoCard from "../components/VideoCard"
+import Portal from "../components/Portal"
 
 export const query = graphql`
   query($slug: String!) {
@@ -98,6 +100,17 @@ const TemplateWrapper = styled.div`
 `
 
 const ProjectTemplate = props => {
+  const [showModal, setShowModal] = useState(false)
+  const [modalSrc, setModalSrc] = useState(null)
+
+  const handleImageClick = e => {
+    //console.log(e.target, e.pageY)
+    setShowModal(!showModal)
+    setModalSrc(e.target.src)
+    window.scrollTo(0, 0)
+    // window.scrollTo(0, e.pageY)
+  }
+
   const images = props.data.allAirtable.nodes[0].data.Images
   const videos = props.data.allAirtable.nodes[0].data.Videos
 
@@ -108,61 +121,84 @@ const ProjectTemplate = props => {
   ))
 
   return (
-    <Layout>
-      <SEO
-        title={props.pageContext.projectTitle}
-        description="a simple description"
-      />
-      <TemplateWrapper>
-        <Link to="/">Return to home page</Link>
-        <h1 className="project__title">{props.pageContext.projectTitle}</h1>
-        <ul className="project__image-list">{renderImageList}</ul>
-        {videos && (
-          <ul className="project__video-list">
-            {videos.map((video, i) => (
-              <li className="project__video-item" key={i}>
-                <VideoCard video={video} />
-              </li>
-            ))}
+    <>
+      <Layout>
+        <SEO
+          title={props.pageContext.projectTitle}
+          description="a simple description"
+        />
+        <TemplateWrapper>
+          <Link to="/">Return to home page</Link>
+          <h1 className="project__title">{props.pageContext.projectTitle}</h1>
+          <ul
+            className="project__image-list"
+            onClick={e => handleImageClick(e)}
+          >
+            {renderImageList}
           </ul>
-        )}
-        <div className="pagination">
-          {props.pageContext.previous && (
-            <div className="pagination__previous">
-              <Link
-                className="pagination__previous-link"
-                to={props.pageContext.previous.slug}
-              >
-                <FontAwesomeIcon
-                  className="pagination__previous-icon"
-                  icon={faLongArrowAltLeft}
-                />
-                <span className="pagination__previous-text">
-                  {props.pageContext.previous.project_title}
-                </span>
-              </Link>
-            </div>
+          {videos && (
+            <ul className="project__video-list">
+              {videos.map((video, i) => (
+                <li className="project__video-item" key={i}>
+                  <VideoCard video={video} />
+                </li>
+              ))}
+            </ul>
           )}
-          {!props.pageContext.previous && <div />}
-          {props.pageContext.next && (
-            <div className="pagination__next">
-              <Link
-                className="pagination__next-link"
-                to={props.pageContext.next.slug}
-              >
-                <span className="pagination__next-text">
-                  {props.pageContext.next.project_title}
-                </span>
-                <FontAwesomeIcon
-                  className="pagination__next-icon"
-                  icon={faLongArrowAltRight}
-                />
-              </Link>
-            </div>
-          )}
-        </div>
-      </TemplateWrapper>
-    </Layout>
+          <div className="pagination">
+            {props.pageContext.previous && (
+              <div className="pagination__previous">
+                <Link
+                  className="pagination__previous-link"
+                  to={props.pageContext.previous.slug}
+                >
+                  <FontAwesomeIcon
+                    className="pagination__previous-icon"
+                    icon={faLongArrowAltLeft}
+                  />
+                  <span className="pagination__previous-text">
+                    {props.pageContext.previous.project_title}
+                  </span>
+                </Link>
+              </div>
+            )}
+            {!props.pageContext.previous && <div />}
+            {props.pageContext.next && (
+              <div className="pagination__next">
+                <Link
+                  className="pagination__next-link"
+                  to={props.pageContext.next.slug}
+                >
+                  <span className="pagination__next-text">
+                    {props.pageContext.next.project_title}
+                  </span>
+                  <FontAwesomeIcon
+                    className="pagination__next-icon"
+                    icon={faLongArrowAltRight}
+                  />
+                </Link>
+              </div>
+            )}
+          </div>
+        </TemplateWrapper>
+      </Layout>
+      {showModal && (
+        <Portal>
+          <div
+            style={{
+              height: "100vh",
+              marginLeft: "50px",
+            }}
+            onClick={() => setShowModal(!showModal)}
+          >
+            <button>
+              <FontAwesomeIcon icon={faTimes} color="white" size="2x" />
+            </button>
+            <img src={modalSrc} />
+          </div>
+        </Portal>
+      )}
+    </>
   )
 }
 

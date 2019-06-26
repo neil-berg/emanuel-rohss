@@ -1,0 +1,28 @@
+.portal-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+}
+
+.portal-container button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.75);
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-container img {
+  height: 100%;
+  width: auto;
+}
