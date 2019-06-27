@@ -63,14 +63,47 @@ const TemplateWrapper = styled.div`
   padding: 1rem 1.5rem 1rem calc(50px + 1.5rem);
   max-width: calc(1000px + 1.5rem + 50px + 1.5rem);
 
-  .project__title {
-    padding-bottom: 0.5rem;
+  .home-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding-bottom: 1rem;
+  }
+
+  .home-link__text {
+    color: black;
+    padding-left: 0.25rem;
+  }
+
+  .header {
+    padding: 0.5rem 0;
     border-bottom: 1px lightgrey solid;
   }
 
-  .project__image-item:first-child {
-    margin-top: 1rem;
+  .header__title {
+    font-weight: normal;
+    font-size: 1.5em;
+    padding: 0 0 1rem 0;
+    margin: 0;
   }
+
+  .header__press-release {
+    color: blue;
+    text-decoration: none;
+  }
+
+  .image-list {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-gap: 2rem;
+    justify-content: center;
+    // align-items: center;
+  }
+
+  // .image-item:first-child {
+  //   margin-top: 1rem;
+  // }
 
   .pagination {
     display: flex;
@@ -113,11 +146,13 @@ const ProjectTemplate = props => {
   const [locationY, setLocationY] = useState(0)
 
   const handleImageClick = e => {
-    setShowModal(true)
-    setModalSrc(e.target.src)
-    setLocationY(window.scrollY)
-    window.scrollTo(0, 0)
-    document.body.classList.add("modal-open")
+    if (e.target.nodeName === "IMG") {
+      setShowModal(true)
+      setModalSrc(e.target.src)
+      setLocationY(window.scrollY)
+      window.scrollTo(0, 0)
+      document.body.classList.add("modal-open")
+    }
   }
 
   const handleCloseClick = () => {
@@ -132,7 +167,7 @@ const ProjectTemplate = props => {
   const videos = props.data.allAirtable.nodes[0].data.Videos
 
   const renderImageList = images.map((image, i) => (
-    <li className="project__image-item" key={i}>
+    <li className="image-item" key={i}>
       <ImageCard image={image} />
     </li>
   ))
@@ -145,18 +180,38 @@ const ProjectTemplate = props => {
           description="a simple description"
         />
         <TemplateWrapper>
-          <Link to="/">Return to home page</Link>
-          <h1 className="project__title">{props.pageContext.projectTitle}</h1>
-          <ul
-            className="project__image-list"
-            onClick={e => handleImageClick(e)}
-          >
+          <Link className="home-link" to="/">
+            <FontAwesomeIcon icon={faLongArrowAltLeft} color="black" />
+            <span className="home-link__text">All projects</span>
+          </Link>
+          <header className="header">
+            <h1 className="header__title">{props.pageContext.projectTitle}</h1>
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquam
+              dolores ratione, debitis perspiciatis ducimus neque velit iusto
+              sed quisquam quae molestiae earum saepe alias. Exercitationem modi
+              deserunt necessitatibus eligendi animi!Officia consequuntur
+              consectetur nesciunt id quod aspernatur aut porro voluptatem
+              voluptates expedita nostrum facilis, deserunt magnam eligendi
+              nulla asperiores ab vero eos! Temporibus voluptatum officiis
+              dolores similique dicta expedita nostrum.
+            </p>
+            <a
+              className="header__press-release"
+              href={props.pageContext.pressRelease}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Press release
+            </a>
+          </header>
+          <ul className="image-list" onClick={e => handleImageClick(e)}>
             {renderImageList}
           </ul>
           {videos && (
-            <ul className="project__video-list">
+            <ul className="video-list">
               {videos.map((video, i) => (
-                <li className="project__video-item" key={i}>
+                <li className="video-item" key={i}>
                   <VideoCard video={video} />
                 </li>
               ))}

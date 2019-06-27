@@ -2,7 +2,7 @@ const path = require(`path`)
 
 exports.createPages = async ({ actions, graphql }) => {
   const { data } = await graphql(`
-    query {
+    {
       allAirtable(
         filter: { table: { eq: "Projects" } }
         sort: { order: ASC, fields: data___project_order }
@@ -11,6 +11,9 @@ exports.createPages = async ({ actions, graphql }) => {
           data {
             slug
             project_title
+            press_release {
+              url
+            }
           }
         }
       }
@@ -30,6 +33,7 @@ exports.createPages = async ({ actions, graphql }) => {
       context: {
         slug: project.data.slug,
         projectTitle: project.data.project_title,
+        pressRelease: project.data.press_release[0].url,
         previous,
         next,
       },

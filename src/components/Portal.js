@@ -22,38 +22,11 @@ const Portal = ({ children }) => {
     }
   })
 
-  // return ReactDOM.createPortal(children, el)
   if (el) {
     return ReactDOM.createPortal(children, el)
   } else {
     return null
   }
 }
-
-// class Portal extends React.Component {
-//   constructor() {
-//     super()
-//     this.el =
-//       typeof document !== `undefined` ? document.createElement("div") : null
-//   }
-
-//   componentDidMount() {
-//     portalRoot.appendChild(this.el)
-//     this.el.classList.add("portal-container")
-//   }
-
-//   componentWillUnmount() {
-//     portalRoot.removeChild(this.el)
-//   }
-
-//   render() {
-//     const { children } = this.props
-//     if (this.el) {
-//       return ReactDOM.createPortal(children, this.el)
-//     } else {
-//       return null
-//     }
-//   }
-// }
 
 export default Portal
