@@ -8,6 +8,7 @@
   align-items: center;
   justify-content: center;
   background: black;
+  z-index: 2;
 }
 
 .portal-container button {
@@ -24,10 +25,4 @@
 
 .portal-container img {
   max-height: 90vh;
-}
-
-@media screen and (min-width: 1000px) {
-  .portal-container img {
-    margin-left: 50px;
-  }
 }
