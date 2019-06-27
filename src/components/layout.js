@@ -22,24 +22,17 @@ const Layout = ({ children }) => {
   return (
     <>
       <Sidebar />
-      <div
-        style={{
-          margin: `0 auto`,
-          padding: `0`,
-        }}
-      >
-        <main>{children}</main>
-        <Footer>
-          site by{" "}
-          <a
-            href="https://neilberg.dev"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            neil berg
-          </a>
-        </Footer>
-      </div>
+      <main>{children}</main>
+      <Footer>
+        site by{" "}
+        <a
+          href="https://neilberg.dev"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          neil berg
+        </a>
+      </Footer>
     </>
   )
 }

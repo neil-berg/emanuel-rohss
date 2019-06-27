@@ -2,6 +2,7 @@ import React from "react"
 import { Link, graphql } from "gatsby"
 import Img from "gatsby-image"
 import styled from "styled-components"
+import PropTypes from "prop-types"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -88,6 +89,14 @@ const IndexPage = ({ data }) => {
       </ProjectWrapper>
     </Layout>
   )
+}
+
+IndexPage.propTypes = {
+  data: PropTypes.shape({
+    allAirtable: PropTypes.shape({
+      nodes: PropTypes.array.isRequired,
+    }),
+  }),
 }
 
 export default IndexPage

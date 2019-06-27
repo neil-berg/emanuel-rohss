@@ -1,15 +1,16 @@
 import React from "react"
 import Img from "gatsby-image"
 import styled from "styled-components"
+import PropTypes from "prop-types"
 
-const CardWrapper = styled.article`
-  margin: 0 auto;
+const CardWrapper = styled.li`
   padding: 0 0 2.25rem 0;
   line-height: 1.1em;
-  height: 100%;
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: center;
+  height: 100%; // DROP IF NO GRID
+
+  .image {
+    cursor: zoom-in;
+  }
 
   .details__title,
   .details__year,
@@ -31,11 +32,11 @@ const CardWrapper = styled.article`
 const ImageCard = ({ image }) => (
   <CardWrapper>
     <Img
+      className="image"
       alt={image.data.image_title}
       fluid={image.data.attachment.localFiles[0].childImageSharp.fluid}
-      style={{ cursor: "zoom-in" }}
     />
-    <section className="details">
+    <div className="details">
       <p className="details__title">{image.data.image_title}</p>
       <p className="details__year">{image.data.year}</p>
       <p className="details__materials">{image.data.materials}</p>
@@ -45,8 +46,21 @@ const ImageCard = ({ image }) => (
           {image.data.view} | {image.data.location}
         </p>
       )}
-    </section>
+    </div>
   </CardWrapper>
 )
+
+ImageCard.propTypes = {
+  image: PropTypes.shape({
+    data: PropTypes.shape({
+      attachment: PropTypes.object.isRequired,
+      dimensions: PropTypes.string,
+      image_title: PropTypes.string,
+      location: PropTypes.string,
+      materials: PropTypes.string,
+      view: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
+}
 
 export default ImageCard

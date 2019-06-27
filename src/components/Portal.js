@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import ReactDOM from "react-dom"
+import PropTypes from "prop-types"
 
 import "../styles/portal.css"
 
@@ -27,6 +28,10 @@ const Portal = ({ children }) => {
   } else {
     return null
   }
+}
+
+Portal.propTypes = {
+  children: PropTypes.node.isRequired,
 }
 
 export default Portal

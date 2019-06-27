@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { graphql, Link } from "gatsby"
 import styled from "styled-components"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -7,6 +7,7 @@ import {
   faLongArrowAltLeft,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons"
+import PropTypes from "prop-types"
 
 import SEO from "../components/seo"
 import Layout from "../components/layout"
@@ -77,6 +78,7 @@ const TemplateWrapper = styled.div`
 
   .header {
     padding: 0.5rem 0;
+    margin-bottom: 2rem;
     border-bottom: 1px lightgrey solid;
   }
 
@@ -92,18 +94,9 @@ const TemplateWrapper = styled.div`
     text-decoration: none;
   }
 
-  .image-list {
+  .image-item:first-child {
     margin-top: 1rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    grid-gap: 2rem;
-    justify-content: center;
-    // align-items: center;
   }
-
-  // .image-item:first-child {
-  //   margin-top: 1rem;
-  // }
 
   .pagination {
     display: flex;
@@ -134,7 +127,7 @@ const TemplateWrapper = styled.div`
 
 const ProjectTemplate = props => {
   // Local state for modals on any project page
-  // modalSrc is the src attribute for a clicked image
+  // modalDetails stores src and alt attributes for a clicked image
   // which is passed as a child img to <Modal />
   // locationY tracks how far down the user has scrolled
   // so that upon closing the modal, the user is returned
@@ -142,13 +135,13 @@ const ProjectTemplate = props => {
   // since the window scrolls to the top (0,0) and freezes
   // there while the modal is shown in fullscreen mode
   const [showModal, setShowModal] = useState(false)
-  const [modalSrc, setModalSrc] = useState(null)
+  const [modalDetails, setModalDetails] = useState({})
   const [locationY, setLocationY] = useState(0)
 
   const handleImageClick = e => {
     if (e.target.nodeName === "IMG") {
       setShowModal(true)
-      setModalSrc(e.target.src)
+      setModalDetails({ src: e.target.src, alt: e.target.alt })
       setLocationY(window.scrollY)
       window.scrollTo(0, 0)
       document.body.classList.add("modal-open")
@@ -167,9 +160,7 @@ const ProjectTemplate = props => {
   const videos = props.data.allAirtable.nodes[0].data.Videos
 
   const renderImageList = images.map((image, i) => (
-    <li className="image-item" key={i}>
-      <ImageCard image={image} />
-    </li>
+    <ImageCard key={i} image={image} />
   ))
 
   return (
@@ -177,7 +168,7 @@ const ProjectTemplate = props => {
       <Layout>
         <SEO
           title={props.pageContext.projectTitle}
-          description="a simple description"
+          description={`Project page for ${props.pageContext.projectTitle}`}
         />
         <TemplateWrapper>
           <Link className="home-link" to="/">
@@ -211,13 +202,11 @@ const ProjectTemplate = props => {
           {videos && (
             <ul className="video-list">
               {videos.map((video, i) => (
-                <li className="video-item" key={i}>
-                  <VideoCard video={video} />
-                </li>
+                <VideoCard key={i} video={video} />
               ))}
             </ul>
           )}
-          <div className="pagination">
+          <nav className="pagination">
             {props.pageContext.previous && (
               <div className="pagination__previous">
                 <Link
@@ -251,7 +240,7 @@ const ProjectTemplate = props => {
                 </Link>
               </div>
             )}
-          </div>
+          </nav>
         </TemplateWrapper>
       </Layout>
       {showModal && (
@@ -264,11 +253,29 @@ const ProjectTemplate = props => {
               onClick={handleCloseClick}
             />
           </button>
-          <img src={modalSrc} />
+          <img src={modalDetails.src} alt={modalDetails.alt} />
         </Portal>
       )}
     </>
   )
+}
+
+ProjectTemplate.propTypes = {
+  data: PropTypes.shape({
+    allAirtable: PropTypes.object.isRequired,
+  }).isRequired,
+  pageContext: PropTypes.shape({
+    next: PropTypes.shape({
+      project_title: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired,
+    }),
+    previous: PropTypes.shape({
+      project_title: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired,
+    }),
+    projectTitle: PropTypes.string.isRequired,
+    pressRelease: PropTypes.string.isRequired,
+  }).isRequired,
 }
 
 export default ProjectTemplate
