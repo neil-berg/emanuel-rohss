@@ -28,6 +28,7 @@ const ImageCard = ({ image }) => (
     <Img
       alt={image.data.image_title}
       fluid={image.data.attachment.localFiles[0].childImageSharp.fluid}
+      style={{ cursor: "zoom-in" }}
     />
     <p className="image__title">{image.data.image_title}</p>
     <p className="image__year">{image.data.year}</p>

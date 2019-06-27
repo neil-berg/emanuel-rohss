@@ -189,7 +189,7 @@ textarea {
 html {
   font: 112.5%/1.45em georgia, serif;
   box-sizing: border-box;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 * {
   box-sizing: inherit;
@@ -202,7 +202,6 @@ html {
 }
 body {
   color: hsla(0, 0%, 0%, 0.8);
-  /* font-family: georgia, serif; */
   font-family: "Roboto", sans-serif;
   font-weight: normal;
   word-wrap: break-word;
@@ -211,6 +210,9 @@ body {
   -ms-font-feature-settings: "kern", "liga", "clig", "calt";
   -webkit-font-feature-settings: "kern", "liga", "clig", "calt";
   font-feature-settings: "kern", "liga", "clig", "calt";
+}
+body.modal-open {
+  overflow: hidden;
 }
 img {
   max-width: 100%;
