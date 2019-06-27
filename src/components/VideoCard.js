@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 
-const VideoWrapper = styled.div`
+const VideoWrapper = styled.li`
   line-height: 1.1em;
 
   .video__title,

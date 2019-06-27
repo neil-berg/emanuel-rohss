@@ -15,7 +15,7 @@ const SidebarWrapper = styled.div`
 
   .content {
     flex: 1;
-    background: papayawhip;
+    background: #999999;
     max-width: ${props => (props.isSidebarOpen ? `100%` : `0px`)};
     min-width: ${props => (props.isSidebarOpen ? `calc(100vw - 50px)` : `0px`)};
     overflow: hidden;
@@ -62,7 +62,7 @@ const SidebarWrapper = styled.div`
   }
 
   .clickbar {
-    background: #002b72;
+    background: #0000ff;
     color: white;
     width: 50px;
     display: flex;

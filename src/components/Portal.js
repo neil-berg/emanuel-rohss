@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import ReactDOM from "react-dom"
+import PropTypes from "prop-types"
 
 import "../styles/portal.css"
 
@@ -22,7 +23,6 @@ const Portal = ({ children }) => {
     }
   })
 
-  // return ReactDOM.createPortal(children, el)
   if (el) {
     return ReactDOM.createPortal(children, el)
   } else {
@@ -30,30 +30,8 @@ const Portal = ({ children }) => {
   }
 }
 
-// class Portal extends React.Component {
-//   constructor() {
-//     super()
-//     this.el =
-//       typeof document !== `undefined` ? document.createElement("div") : null
-//   }
-
-//   componentDidMount() {
-//     portalRoot.appendChild(this.el)
-//     this.el.classList.add("portal-container")
-//   }
-
-//   componentWillUnmount() {
-//     portalRoot.removeChild(this.el)
-//   }
-
-//   render() {
-//     const { children } = this.props
-//     if (this.el) {
-//       return ReactDOM.createPortal(children, this.el)
-//     } else {
-//       return null
-//     }
-//   }
-// }
+Portal.propTypes = {
+  children: PropTypes.node.isRequired,
+}
 
 export default Portal
