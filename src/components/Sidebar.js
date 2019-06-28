@@ -25,19 +25,49 @@ const SidebarWrapper = styled.div`
     overflow-y: scroll;
   }
 
-  // .content__solo,
-  // .content__education,
-  // .content__contact {
-  //   font-size: 0.85em;
-  //   margin: 0 auto;
-  //   max-width: 600px;
-  //   padding: 1rem;
-  // }
+  .section {
+    font-size: 0.85em;
+    margin: 0 auto;
+    max-width: 600px;
+    padding: 1rem;
+  }
 
-  // .content__contact {
-  //   display: flex;
-  //   align-items: center;
-  // }
+  .section__header {
+    font-weight: normal;
+    font-size: 1.5em;
+    border-bottom: 1px black solid;
+    margin-bottom: 0.75rem;
+  }
+
+  .section__list-item {
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+  }
+
+  .section__list-item:last-child {
+    margin-bottom: 1rem;
+  }
+
+  .section__list-header {
+    font-weight: normal;
+    font-size: 1em;
+    margin: 0;
+  }
+
+  .section__list-item-text,
+  .section__list-item-link {
+    margin: 0;
+    padding: 0;
+  }
+
+  .contact {
+    display: flex;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
 
   .clickbar {
     background: #0000ff;
@@ -102,16 +132,6 @@ const Sidebar = () => {
     node => node.data.section === "Talks/Lectures"
   )
 
-  // const sections = [
-  //   solo,
-  //   group,
-  //   curatedExhibitions,
-  //   publicationsAndCatalogues,
-  //   press,
-  //   awardsAndResidencies,
-  //   talksAndLectures,
-  // ]
-
   const sections = [
     {
       title: "Solo",
@@ -121,9 +141,27 @@ const Sidebar = () => {
       title: "Group",
       items: groupItems,
     },
+    {
+      title: "Curated Exhibitions",
+      items: curatedExhibitionsItems,
+    },
+    {
+      title: "Publication and Catalogues",
+      items: publicationsAndCataloguesItems,
+    },
+    {
+      title: "Press",
+      items: pressItems,
+    },
+    {
+      title: "Awards and Residencies",
+      items: awardsAndResidenciesItems,
+    },
+    {
+      title: "Talks and Lectures",
+      items: talksAndLecturesItems,
+    },
   ]
-
-  //console.log(sections)
 
   const renderSections = sections.map((section, i) => {
     // console.log(section.items)
@@ -141,16 +179,18 @@ const Sidebar = () => {
     const listOfItems = itemsByYear.map((element, i) => {
       const year = element.year
       const items = element.items.map((item, j) => (
-        <li key={j}>
-          <p>
-            <a href={item.data.link_url}>{item.data.link_text}</a>
-            <span>{item.data.text}</span>
+        <li className="section__list-item" key={j}>
+          <p className="section__list-item-text">
+            <a className="section__list-item-link" href={item.data.link_url}>
+              {item.data.link_text}
+            </a>
+            <span> {item.data.text}</span>
           </p>
         </li>
       ))
       return (
-        <ul key={i}>
-          <h3>{year}</h3>
+        <ul className="section__list" key={i}>
+          <h3 className="section__list-header">{year}</h3>
           {items}
         </ul>
       )
@@ -177,17 +217,17 @@ const Sidebar = () => {
           </a>
         </section>
         {renderSections}
-        <section className="education">
-          <h2 className="education-header--big">Education</h2>
-          <ul className="education-list">
-            <li className="education-list-item">
+        <section className="section">
+          <h2 className="section__header">Education</h2>
+          <ul className="section__list">
+            <li className="section__list-item">
               MFA, 2013, Royal College of Arts, London, UK, (Painting)
             </li>
-            <li className="education-list-item">
+            <li className="section__list-item">
               BFA, 2011, National College of Art & Design, Dublin, IRL,
               (Painting)
             </li>
-            <li className="education-list-item">
+            <li className="section__list-item">
               BA, 2010 Valand Academy, Gothenburg, SE, (Fine Art)
             </li>
           </ul>
