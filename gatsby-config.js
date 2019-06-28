@@ -32,6 +32,10 @@ module.exports = {
             tableLinks: ["Images", "Videos"],
             mapping: { cover_photo: `fileNode` },
           },
+          {
+            baseId: "app4AeEFIvxVmE8jA",
+            tableName: "CV",
+          },
         ],
       },
     },

@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useStaticQuery, graphql } from "gatsby"
 import styled from "styled-components"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
@@ -13,7 +14,7 @@ const SidebarWrapper = styled.div`
   bottom: 0;
   z-index: 2;
 
-  .content {
+  .cv {
     flex: 1;
     background: #999999;
     max-width: ${props => (props.isSidebarOpen ? `100%` : `0px`)};
@@ -24,42 +25,19 @@ const SidebarWrapper = styled.div`
     overflow-y: scroll;
   }
 
-  .content__solo,
-  .content__education,
-  .content__contact {
-    font-size: 0.85em;
-    margin: 0 auto;
-    max-width: 600px;
-    padding: 1rem;
-  }
+  // .content__solo,
+  // .content__education,
+  // .content__contact {
+  //   font-size: 0.85em;
+  //   margin: 0 auto;
+  //   max-width: 600px;
+  //   padding: 1rem;
+  // }
 
-  .content__contact {
-    display: flex;
-    align-items: center;
-  }
-
-  .content__solo-header--big,
-  .content__education-header--big {
-    font-size: 1.5em;
-    border-bottom: 1px grey solid;
-    margin-bottom: 1rem;
-  }
-
-  .content__solo-header--small {
-    font-size: 1.15em;
-    margin: 0;
-  }
-
-  .content__solo-list-item,
-  .content__education-list-item {
-    margin: 0;
-    padding: 0;
-  }
-
-  .content__solo-list-item-link {
-    text-decoration: none;
-    color: blue;
-  }
+  // .content__contact {
+  //   display: flex;
+  //   align-items: center;
+  // }
 
   .clickbar {
     background: #0000ff;
@@ -68,6 +46,7 @@ const SidebarWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
   }
 
   .clickbar__text {
@@ -84,10 +63,111 @@ const SidebarWrapper = styled.div`
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
+  const data = useStaticQuery(graphql`
+    {
+      allAirtable(filter: { table: { eq: "CV" } }) {
+        nodes {
+          data {
+            section
+            link_text
+            link_url
+            text
+            year(formatString: "YYYY")
+          }
+        }
+      }
+    }
+  `)
+
+  // Extract each section of the CV from the queried data
+  const soloItems = data.allAirtable.nodes.filter(
+    node => node.data.section === "Solo"
+  )
+  const groupItems = data.allAirtable.nodes.filter(
+    node => node.data.section === "Group"
+  )
+  const curatedExhibitionsItems = data.allAirtable.nodes.filter(
+    node => node.data.section === "Curated Exhibitions"
+  )
+  const publicationsAndCataloguesItems = data.allAirtable.nodes.filter(
+    node => node.data.section === "Publications and Catalogues"
+  )
+  const pressItems = data.allAirtable.nodes.filter(
+    node => node.data.section === "Press"
+  )
+  const awardsAndResidenciesItems = data.allAirtable.nodes.filter(
+    node => node.data.section === "Awards and Residencies"
+  )
+  const talksAndLecturesItems = data.allAirtable.nodes.filter(
+    node => node.data.section === "Talks/Lectures"
+  )
+
+  // const sections = [
+  //   solo,
+  //   group,
+  //   curatedExhibitions,
+  //   publicationsAndCatalogues,
+  //   press,
+  //   awardsAndResidencies,
+  //   talksAndLectures,
+  // ]
+
+  const sections = [
+    {
+      title: "Solo",
+      items: soloItems,
+    },
+    {
+      title: "Group",
+      items: groupItems,
+    },
+  ]
+
+  //console.log(sections)
+
+  const renderSections = sections.map((section, i) => {
+    // console.log(section.items)
+    const yearsInSection = Array.from(
+      new Set(section.items.map(item => item.data.year))
+    ).sort((a, b) => b - a)
+
+    const itemsByYear = yearsInSection.map(year => {
+      return {
+        year,
+        items: section.items.filter(item => item.data.year === year),
+      }
+    })
+
+    const listOfItems = itemsByYear.map((element, i) => {
+      const year = element.year
+      const items = element.items.map((item, j) => (
+        <li key={j}>
+          <p>
+            <a href={item.data.link_url}>{item.data.link_text}</a>
+            <span>{item.data.text}</span>
+          </p>
+        </li>
+      ))
+      return (
+        <ul key={i}>
+          <h3>{year}</h3>
+          {items}
+        </ul>
+      )
+    })
+
+    return (
+      <section className="section" key={i}>
+        <h2 className="section__header">{section.title}</h2>
+        {listOfItems}
+      </section>
+    )
+  })
+
   return (
     <SidebarWrapper isSidebarOpen={isSidebarOpen}>
-      <main className="content">
-        <div className="content__contact">
+      <article className="cv">
+        <section className="contact">
           <FontAwesomeIcon icon={faEnvelope} size="2x" />
           <a
             href="mailto:emanuel.rohss@gmail.com "
@@ -95,139 +175,24 @@ const Sidebar = () => {
           >
             emanuel.rohss@gmail.com{" "}
           </a>
-        </div>
-        <div className="content__solo">
-          <h1 className="content__solo-header--big">Solo</h1>
-          <h2 className="content__solo-header--small">2018</h2>
-          <ul className="content__solo-list">
-            <li className="content__solo-list-item">
-              <a href="" className="content__solo-list-item-link">
-                In Broad Daylight
-              </a>
-              , Issues Gallery, Stockholm, SE{" "}
-            </li>
-            <li>
-              <a href="" className="content__solo-list-item-link">
-                Out Of Joint
-              </a>
-              , 818 N Spring Steeet, Los Angeles, CA
-            </li>
-          </ul>
-          <h2 className="content__solo-header--small">2017</h2>
-          <ul>
-            <li className="content__solo-list-item">
-              <a
-                href="
-              "
-                className="content__solo-list-item-link"
-              >
-                End Frames
-              </a>
-              , Coma Gallery, Sydney, AU
-            </li>
-            <li className="content__solo-list-item">
-              <a
-                href="
-              "
-                className="content__solo-list-item-link"
-              >
-                The Thatch of The Roof And/Or How to Divide a Room In Two
-              </a>
-              , (with Mateo Tannatt), Salon Kennedy, Frankfurt, DE{" "}
-            </li>
-          </ul>
-        </div>
-        <section className="content__education">
-          <h1 className="content__education-header--big">Education</h1>
-          <ul className="content__education-list">
-            <li className="content__education-list-item">
+        </section>
+        {renderSections}
+        <section className="education">
+          <h2 className="education-header--big">Education</h2>
+          <ul className="education-list">
+            <li className="education-list-item">
               MFA, 2013, Royal College of Arts, London, UK, (Painting)
             </li>
-            <li className="content__education-list-item">
+            <li className="education-list-item">
               BFA, 2011, National College of Art & Design, Dublin, IRL,
               (Painting)
             </li>
-            <li className="content__education-list-item">
+            <li className="education-list-item">
               BA, 2010 Valand Academy, Gothenburg, SE, (Fine Art)
             </li>
           </ul>
         </section>
-        <section className="content__education">
-          <h1 className="content__education-header--big">Education</h1>
-          <ul className="content__education-list">
-            <li className="content__education-list-item">
-              MFA, 2013, Royal College of Arts, London, UK, (Painting)
-            </li>
-            <li className="content__education-list-item">
-              BFA, 2011, National College of Art & Design, Dublin, IRL,
-              (Painting)
-            </li>
-            <li className="content__education-list-item">
-              BA, 2010 Valand Academy, Gothenburg, SE, (Fine Art)
-            </li>
-          </ul>
-        </section>
-        <section className="content__education">
-          <h1 className="content__education-header--big">Education</h1>
-          <ul className="content__education-list">
-            <li className="content__education-list-item">
-              MFA, 2013, Royal College of Arts, London, UK, (Painting)
-            </li>
-            <li className="content__education-list-item">
-              BFA, 2011, National College of Art & Design, Dublin, IRL,
-              (Painting)
-            </li>
-            <li className="content__education-list-item">
-              BA, 2010 Valand Academy, Gothenburg, SE, (Fine Art)
-            </li>
-          </ul>
-        </section>
-        <section className="content__education">
-          <h1 className="content__education-header--big">Education</h1>
-          <ul className="content__education-list">
-            <li className="content__education-list-item">
-              MFA, 2013, Royal College of Arts, London, UK, (Painting)
-            </li>
-            <li className="content__education-list-item">
-              BFA, 2011, National College of Art & Design, Dublin, IRL,
-              (Painting)
-            </li>
-            <li className="content__education-list-item">
-              BA, 2010 Valand Academy, Gothenburg, SE, (Fine Art)
-            </li>
-          </ul>
-        </section>
-        <section className="content__education">
-          <h1 className="content__education-header--big">Education</h1>
-          <ul className="content__education-list">
-            <li className="content__education-list-item">
-              MFA, 2013, Royal College of Arts, London, UK, (Painting)
-            </li>
-            <li className="content__education-list-item">
-              BFA, 2011, National College of Art & Design, Dublin, IRL,
-              (Painting)
-            </li>
-            <li className="content__education-list-item">
-              BA, 2010 Valand Academy, Gothenburg, SE, (Fine Art)
-            </li>
-          </ul>
-        </section>
-        <section className="content__education">
-          <h1 className="content__education-header--big">Education</h1>
-          <ul className="content__education-list">
-            <li className="content__education-list-item">
-              MFA, 2013, Royal College of Arts, London, UK, (Painting)
-            </li>
-            <li className="content__education-list-item">
-              BFA, 2011, National College of Art & Design, Dublin, IRL,
-              (Painting)
-            </li>
-            <li className="content__education-list-item">
-              BA, 2010 Valand Academy, Gothenburg, SE, (Fine Art)
-            </li>
-          </ul>
-        </section>
-      </main>
+      </article>
       <div
         className="clickbar"
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
