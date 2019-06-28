@@ -181,7 +181,12 @@ const Sidebar = () => {
       const items = element.items.map((item, j) => (
         <li className="section__list-item" key={j}>
           <p className="section__list-item-text">
-            <a className="section__list-item-link" href={item.data.link_url}>
+            <a
+              className="section__list-item-link"
+              href={item.data.link_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {item.data.link_text}
             </a>
             <span> {item.data.text}</span>
@@ -210,7 +215,7 @@ const Sidebar = () => {
         <section className="contact">
           <FontAwesomeIcon icon={faEnvelope} size="2x" />
           <a
-            href="mailto:emanuel.rohss@gmail.com "
+            href="mailto:emanuel.rohss@gmail.com"
             style={{ marginLeft: "1rem", fontSize: "1.2em" }}
           >
             emanuel.rohss@gmail.com{" "}
