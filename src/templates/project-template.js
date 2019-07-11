@@ -14,6 +14,7 @@ import Layout from "../components/layout"
 import ImageCard from "../components/ImageCard"
 import VideoCard from "../components/VideoCard"
 import Portal from "../components/Portal"
+import Modal from "../components/Modal"
 
 export const query = graphql`
   query($slug: String!) {
@@ -57,74 +58,6 @@ export const query = graphql`
     }
   }
 `
-
-const TemplateWrapper = styled.div`
-  margin: 0 auto;
-  width: 100%;
-  padding: 1rem 1.5rem 1rem calc(50px + 1.5rem);
-  max-width: calc(1000px + 1.5rem + 50px + 1.5rem);
-
-  .home-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    padding-bottom: 1rem;
-  }
-
-  .home-link__text {
-    color: black;
-    padding-left: 0.25rem;
-  }
-
-  .header {
-    padding: 0.5rem 0;
-    margin-bottom: 2rem;
-    border-bottom: 1px lightgrey solid;
-  }
-
-  .header__title {
-    font-weight: normal;
-    font-size: 1.5em;
-    padding: 0 0 1rem 0;
-    margin: 0;
-  }
-
-  .header__press-release {
-    color: blue;
-    text-decoration: none;
-  }
-
-  .image-item:first-child {
-    margin-top: 1rem;
-  }
-
-  .pagination {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  .pagination__previous,
-  .pagination__next {
-    display: flex;
-    align-items: center;
-  }
-
-  .pagination__previous-link,
-  .pagination__next-link {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .pagination__previous-text {
-    padding-left: 0.5rem;
-  }
-
-  .pagination__next-text {
-    padding-right: 0.5rem;
-  }
-`
-
 const ProjectTemplate = props => {
   // Local state for modals on any project page
   // modalDetails stores src and alt attributes for a clicked image
@@ -136,22 +69,22 @@ const ProjectTemplate = props => {
   // there while the modal is shown in fullscreen mode
   const [showModal, setShowModal] = useState(false)
   const [modalDetails, setModalDetails] = useState({})
-  const [locationY, setLocationY] = useState(0)
+  // const [locationY, setLocationY] = useState(0)
 
   const handleImageClick = e => {
     if (e.target.nodeName === "IMG") {
       setShowModal(true)
       setModalDetails({ src: e.target.src, alt: e.target.alt })
-      setLocationY(window.scrollY)
-      window.scrollTo(0, 0)
-      document.body.classList.add("modal-open")
+      // setLocationY(window.scrollY)
+      // window.scrollTo(0, 0)
+      // document.body.classList.add("modal-open")
     }
   }
 
   const handleCloseClick = () => {
     setShowModal(false)
-    window.scrollTo(0, locationY)
-    document.body.classList.remove("modal-open")
+    // window.scrollTo(0, locationY)
+    // document.body.classList.remove("modal-open")
   }
 
   // Extract image and video nodes from Airtable
@@ -243,7 +176,7 @@ const ProjectTemplate = props => {
           </nav>
         </TemplateWrapper>
       </Layout>
-      {showModal && (
+      {/* {showModal && (
         <Portal>
           <button>
             <FontAwesomeIcon
@@ -255,10 +188,91 @@ const ProjectTemplate = props => {
           </button>
           <img src={modalDetails.src} alt={modalDetails.alt} />
         </Portal>
-      )}
+      )} */}
+      <Portal>
+        <Modal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          modalDetails={modalDetails}
+        />
+      </Portal>
     </>
   )
 }
+
+const TemplateWrapper = styled.div`
+  margin: 0 auto;
+  width: 100%;
+  padding: 1rem 1.5rem 1rem calc(50px + 1.5rem);
+  max-width: calc(1000px + 1.5rem + 50px + 1.5rem);
+
+  .home-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding-bottom: 1rem;
+  }
+
+  .home-link__text {
+    color: black;
+    padding-left: 0.25rem;
+  }
+
+  .header {
+    padding: 0.5rem 0;
+    margin-bottom: 2rem;
+    border-bottom: 1px lightgrey solid;
+  }
+
+  .header__title {
+    font-weight: normal;
+    font-size: 1.5em;
+    padding: 0 0 1rem 0;
+    margin: 0;
+  }
+
+  .header__press-release {
+    color: blue;
+    text-decoration: none;
+  }
+
+  .image-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 300px);
+    grid-gap: 1rem;
+    justify-content: center;
+  }
+
+  .image-item:first-child {
+    margin-top: 1rem;
+  }
+
+  .pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .pagination__previous,
+  .pagination__next {
+    display: flex;
+    align-items: center;
+  }
+
+  .pagination__previous-link,
+  .pagination__next-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .pagination__previous-text {
+    padding-left: 0.5rem;
+  }
+
+  .pagination__next-text {
+    padding-right: 0.5rem;
+  }
+`
 
 ProjectTemplate.propTypes = {
   data: PropTypes.shape({
