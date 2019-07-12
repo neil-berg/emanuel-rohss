@@ -1,32 +1,36 @@
-import React, { useEffect } from "react"
+import React from "react"
 import ReactDOM from "react-dom"
 import PropTypes from "prop-types"
-
-import "../styles/portal.css"
 
 // Use a ternary operator to make sure that the document object is defined
 const portalRoot =
   typeof document !== `undefined` ? document.getElementById("portal") : null
 
-const Portal = ({ children }) => {
-  const el =
-    typeof document !== `undefined` ? document.createElement("div") : null
+class Portal extends React.Component {
+  constructor() {
+    super()
+    // Use a ternary operator to make sure that the document object is defined
+    this.el =
+      typeof document !== `undefined` ? document.createElement("div") : null
+  }
 
-  useEffect(() => {
-    portalRoot.appendChild(el)
-    el.classList.add("portal-container")
-  }, [])
+  componentDidMount = () => {
+    portalRoot.appendChild(this.el)
+  }
 
-  useEffect(() => {
-    return () => {
-      portalRoot.removeChild(el)
+  componentWillUnmount = () => {
+    portalRoot.removeChild(this.el)
+  }
+
+  render() {
+    const { children } = this.props
+
+    // Check that this.el is not null before using ReactDOM.createPortal
+    if (this.el) {
+      return ReactDOM.createPortal(children, this.el)
+    } else {
+      return null
     }
-  })
-
-  if (el) {
-    return ReactDOM.createPortal(children, el)
-  } else {
-    return null
   }
 }
 

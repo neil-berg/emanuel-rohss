@@ -4,95 +4,10 @@ import styled from "styled-components"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
 
-const SidebarWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  min-height: 100vh;
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 2;
-
-  .cv {
-    flex: 1;
-    background: #999999;
-    max-width: ${props => (props.isSidebarOpen ? `100%` : `0px`)};
-    min-width: ${props => (props.isSidebarOpen ? `calc(100vw - 50px)` : `0px`)};
-    overflow: hidden;
-    opacity: ${props => (props.isSidebarOpen ? "1" : "0")};
-    transition: all 0.3s linear;
-    overflow-y: scroll;
-  }
-
-  .section {
-    font-size: 0.85em;
-    margin: 0 auto;
-    max-width: 600px;
-    padding: 1rem;
-  }
-
-  .section__header {
-    font-weight: normal;
-    font-size: 1.5em;
-    border-bottom: 1px black solid;
-    margin-bottom: 0.75rem;
-  }
-
-  .section__list-item {
-    margin: 0;
-    padding: 0;
-    font-size: 1em;
-  }
-
-  .section__list-item:last-child {
-    margin-bottom: 1rem;
-  }
-
-  .section__list-header {
-    font-weight: normal;
-    font-size: 1em;
-    margin: 0;
-  }
-
-  .section__list-item-text,
-  .section__list-item-link {
-    margin: 0;
-    padding: 0;
-  }
-
-  .contact {
-    display: flex;
-    align-items: center;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 1rem;
-  }
-
-  .clickbar {
-    background: #0000ff;
-    color: white;
-    width: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-
-  .clickbar__text {
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-    margin: 0;
-    padding: 0;
-    font-family: "Montserrat", sans-serif;
-    text-transform: uppercase;
-    font-size: 1.35em;
-  }
-`
-
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
+  // Query all sections of the CV from Airtable
   const data = useStaticQuery(graphql`
     {
       allAirtable(filter: { table: { eq: "CV" } }) {
@@ -247,5 +162,90 @@ const Sidebar = () => {
     </SidebarWrapper>
   )
 }
+
+const SidebarWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+
+  .cv {
+    flex: 1;
+    background: #999999;
+    max-width: ${props => (props.isSidebarOpen ? `100%` : `0px`)};
+    min-width: ${props => (props.isSidebarOpen ? `calc(100vw - 50px)` : `0px`)};
+    opacity: ${props => (props.isSidebarOpen ? "1" : "0")};
+    transition: all 0.3s linear;
+    overflow-y: scroll;
+  }
+
+  .section {
+    font-size: 0.85em;
+    margin: 0 auto;
+    max-width: 600px;
+    padding: 1rem;
+  }
+
+  .section__header {
+    font-weight: normal;
+    font-size: 1.5em;
+    border-bottom: 1px black solid;
+    margin-bottom: 0.75rem;
+  }
+
+  .section__list-item {
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+  }
+
+  .section__list-item:last-child {
+    margin-bottom: 1rem;
+  }
+
+  .section__list-header {
+    font-weight: normal;
+    font-size: 1em;
+    margin: 0;
+  }
+
+  .section__list-item-text,
+  .section__list-item-link {
+    margin: 0;
+    padding: 0;
+  }
+
+  .contact {
+    display: flex;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+
+  .clickbar {
+    background: #0000ff;
+    color: white;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .clickbar__text {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
+    text-transform: uppercase;
+    font-size: 1.35em;
+  }
+`
 
 export default Sidebar
