@@ -1,8 +1,8 @@
 import React from "react"
 import styled from "styled-components"
 import { animated, useTransition } from "react-spring"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTimes } from "@fortawesome/free-solid-svg-icons"
+
+import closeLogo from "../assets/cancel.svg"
 
 const Modal = ({ showModal, setShowModal, modalDetails }) => {
   const backdropTransition = useTransition(showModal, null, {
@@ -40,19 +40,23 @@ const Modal = ({ showModal, setShowModal, modalDetails }) => {
                 return (
                   item && (
                     <animated.div className="card" key={key} style={animation}>
-                      {/* <button className="card__button">
-                        <FontAwesomeIcon
-                          icon={faTimes}
-                          color="black"
-                          size="2x"
-                          onClick={() => setShowModal(false)}
-                        />
-                      </button> */}
                       <img
                         className="card__image"
                         src={modalDetails.src}
                         alt={modalDetails.alt}
                       />
+                      <div>
+                        <button
+                          className="card__button"
+                          onClick={() => setShowModal(false)}
+                        >
+                          <img
+                            className="card__button-svg"
+                            src={closeLogo}
+                            alt="Logo"
+                          />
+                        </button>
+                      </div>
                     </animated.div>
                   )
                 )
@@ -87,20 +91,29 @@ const Container = styled.div`
   }
 
   .card__button {
-    background: white;
-    border-color: white;
-    width: 50px;
-    height: 50px;
+    background: #f7f8fa;
+    border-color: #f7f8fa;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: absolute;
+    top: -55px;
+    right: 0.5rem;
+  }
+
+  .card__button-svg {
+    width: 15px;
+    height: 15px;
   }
 
   .card__image {
     display: block;
     width: auto;
-    max-height: 90vh;
+    max-height: 80vh;
+    position: relative;
   }
 `
 

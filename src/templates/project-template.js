@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faLongArrowAltRight,
   faLongArrowAltLeft,
-  faTimes,
 } from "@fortawesome/free-solid-svg-icons"
 import PropTypes from "prop-types"
 
@@ -31,7 +30,7 @@ export const query = graphql`
               attachment {
                 localFiles {
                   childImageSharp {
-                    fluid(maxWidth: 1000) {
+                    fluid(maxWidth: 960) {
                       ...GatsbyImageSharpFluid_tracedSVG
                     }
                   }
@@ -59,32 +58,17 @@ export const query = graphql`
   }
 `
 const ProjectTemplate = props => {
-  // Local state for modals on any project page
   // modalDetails stores src and alt attributes for a clicked image
   // which is passed as a child img to <Modal />
-  // locationY tracks how far down the user has scrolled
-  // so that upon closing the modal, the user is returned
-  // to the last place they scrolled to. This is necessary
-  // since the window scrolls to the top (0,0) and freezes
-  // there while the modal is shown in fullscreen mode
+
   const [showModal, setShowModal] = useState(false)
   const [modalDetails, setModalDetails] = useState({})
-  // const [locationY, setLocationY] = useState(0)
 
   const handleImageClick = e => {
     if (e.target.nodeName === "IMG") {
       setShowModal(true)
       setModalDetails({ src: e.target.src, alt: e.target.alt })
-      // setLocationY(window.scrollY)
-      // window.scrollTo(0, 0)
-      // document.body.classList.add("modal-open")
     }
-  }
-
-  const handleCloseClick = () => {
-    setShowModal(false)
-    // window.scrollTo(0, locationY)
-    // document.body.classList.remove("modal-open")
   }
 
   // Extract image and video nodes from Airtable
@@ -176,19 +160,6 @@ const ProjectTemplate = props => {
           </nav>
         </TemplateWrapper>
       </Layout>
-      {/* {showModal && (
-        <Portal>
-          <button>
-            <FontAwesomeIcon
-              icon={faTimes}
-              color="white"
-              size="2x"
-              onClick={handleCloseClick}
-            />
-          </button>
-          <img src={modalDetails.src} alt={modalDetails.alt} />
-        </Portal>
-      )} */}
       <Portal>
         <Modal
           showModal={showModal}
@@ -204,7 +175,7 @@ const TemplateWrapper = styled.div`
   margin: 0 auto;
   width: 100%;
   padding: 1rem 1.5rem 1rem calc(50px + 1.5rem);
-  max-width: calc(1000px + 1.5rem + 50px + 1.5rem);
+  max-width: calc(960px + 1.5rem + 50px + 1.5rem);
 
   .home-link {
     display: flex;
@@ -236,12 +207,12 @@ const TemplateWrapper = styled.div`
     text-decoration: none;
   }
 
-  .image-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 300px);
-    grid-gap: 1rem;
-    justify-content: center;
-  }
+  // .image-list {
+  //   display: grid;
+  //   grid-template-columns: repeat(auto-fit, 300px);
+  //   grid-gap: 1rem;
+  //   justify-content: center;
+  // }
 
   .image-item:first-child {
     margin-top: 1rem;
