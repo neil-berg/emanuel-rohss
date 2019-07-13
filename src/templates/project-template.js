@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { graphql, Link } from "gatsby"
+import Img from "gatsby-image"
 import styled from "styled-components"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
@@ -10,7 +11,7 @@ import PropTypes from "prop-types"
 
 import SEO from "../components/seo"
 import Layout from "../components/layout"
-import ImageCard from "../components/ImageCard"
+// import ImageCard from "../components/ImageCard"
 import VideoCard from "../components/VideoCard"
 import Portal from "../components/Portal"
 import Modal from "../components/Modal"
@@ -31,7 +32,8 @@ export const query = graphql`
                 localFiles {
                   childImageSharp {
                     fluid(maxWidth: 960) {
-                      ...GatsbyImageSharpFluid_tracedSVG
+                      ...GatsbyImageSharpFluid_withWebp
+                      aspectRatio
                     }
                   }
                 }
@@ -76,9 +78,31 @@ const ProjectTemplate = props => {
   const images = props.data.allAirtable.nodes[0].data.Images
   const videos = props.data.allAirtable.nodes[0].data.Videos
 
-  const renderImageList = images.map((image, i) => (
-    <ImageCard key={i} image={image} />
-  ))
+  const renderImageList = images.map((image, i) => {
+    // Using aspect ratio, calculate each image width
+    // given a fixed height of 200px
+    const aspectRatio =
+      image.data.attachment.localFiles[0].childImageSharp.fluid.aspectRatio
+    const widthSmall = 150 * aspectRatio
+
+    const widthLarge = 250 * aspectRatio
+
+    return (
+      <ImageCard
+        className="image-card"
+        widthSmall={widthSmall}
+        widthLarge={widthLarge}
+        key={i}
+      >
+        <figure className="image">
+          <Img
+            alt={image.data.image_title}
+            fluid={image.data.attachment.localFiles[0].childImageSharp.fluid}
+          />
+        </figure>
+      </ImageCard>
+    )
+  })
 
   return (
     <>
@@ -113,9 +137,9 @@ const ProjectTemplate = props => {
               Press release
             </a>
           </header>
-          <ul className="image-list" onClick={e => handleImageClick(e)}>
+          <div className="image-list" onClick={e => handleImageClick(e)}>
             {renderImageList}
-          </ul>
+          </div>
           {videos && (
             <ul className="video-list">
               {videos.map((video, i) => (
@@ -171,6 +195,18 @@ const ProjectTemplate = props => {
   )
 }
 
+const ImageCard = styled.div`
+  height: 150px;
+  width: ${props => props.widthSmall}px;
+  display: inline-block;
+  margin: 0.5rem;
+
+  @media screen and (min-width: 800px) {
+    height: 250px;
+    width: ${props => props.widthLarge}px;
+  }
+`
+
 const TemplateWrapper = styled.div`
   margin: 0 auto;
   width: 100%;
@@ -207,15 +243,11 @@ const TemplateWrapper = styled.div`
     text-decoration: none;
   }
 
-  // .image-list {
-  //   display: grid;
-  //   grid-template-columns: repeat(auto-fit, 300px);
-  //   grid-gap: 1rem;
-  //   justify-content: center;
-  // }
-
-  .image-item:first-child {
-    margin-top: 1rem;
+  .image-list {
+    display: flex;
+    min-height: 200px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .pagination {

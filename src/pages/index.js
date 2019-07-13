@@ -18,7 +18,7 @@ export const query = graphql`
           cover_photo {
             localFiles {
               childImageSharp {
-                fluid(maxWidth: 960) {
+                fluid(maxWidth: 800) {
                   ...GatsbyImageSharpFluid_tracedSVG
                 }
               }
@@ -44,7 +44,7 @@ const ProjectWrapper = styled.div`
   padding: 1rem 1.5rem 1rem calc(50px + 1.5rem);
 
   .project-list {
-    max-width: 960px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 0;
   }

@@ -4,12 +4,14 @@ import styled from "styled-components"
 import PropTypes from "prop-types"
 
 const CardWrapper = styled.li`
-  padding: 0 0 2.25rem 0;
+  padding: 0;
   line-height: 1.1em;
-  height: 100%; // DROP IF NO GRID
+  max-height: 200px
 
   .image {
     cursor: zoom-in;
+    height: 200px
+    width: auto;
   }
 
   .details__title,
@@ -36,7 +38,7 @@ const ImageCard = ({ image }) => (
       alt={image.data.image_title}
       fluid={image.data.attachment.localFiles[0].childImageSharp.fluid}
     />
-    <div className="details">
+    {/* <div className="details">
       <p className="details__title">{image.data.image_title}</p>
       <p className="details__year">{image.data.year}</p>
       <p className="details__materials">{image.data.materials}</p>
@@ -46,7 +48,7 @@ const ImageCard = ({ image }) => (
           {image.data.view} | {image.data.location}
         </p>
       )}
-    </div>
+    </div> */}
   </CardWrapper>
 )
 
