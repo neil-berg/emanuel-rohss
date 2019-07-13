@@ -3,6 +3,7 @@ import styled from "styled-components"
 
 const VideoWrapper = styled.li`
   line-height: 1.1em;
+  padding-top: 0.5rem;
 
   .video__title,
   .video__year,
