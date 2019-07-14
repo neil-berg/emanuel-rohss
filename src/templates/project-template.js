@@ -39,6 +39,7 @@ export const query = graphql`
                 }
               }
             }
+            id
           }
           Videos {
             data {
@@ -60,9 +61,25 @@ export const query = graphql`
   }
 `
 const ProjectTemplate = props => {
+  // Extract image and video nodes from Airtable
+  // Videos may be null for a given project
+  const images = props.data.allAirtable.nodes[0].data.Images
+  const videos = props.data.allAirtable.nodes[0].data.Videos
+
+  // Rearrange incoming image data to be an array of objects
+  // with id and image details that will be used to create
+  // Gatsby Images for both the landing gallery and modal
+  const imageData = images.map(image => ({
+    id: image.id,
+    title: image.data.image_title,
+    location: image.data.location,
+    materials: image.data.materials,
+    view: image.data.view,
+    fluid: image.data.attachment.localFiles[0].childImageSharp.fluid,
+  }))
+
   // modalDetails stores src and alt attributes for a clicked image
   // which is passed as a child img to <Modal />
-
   const [showModal, setShowModal] = useState(false)
   const [modalDetails, setModalDetails] = useState({})
 
@@ -70,21 +87,25 @@ const ProjectTemplate = props => {
     if (e.target.nodeName === "IMG") {
       setShowModal(true)
       setModalDetails({ src: e.target.src, alt: e.target.alt })
+      // TODO: Try to pass a gatsby image to the modal...
+      // props work but positioning the image continues to
+      // break past its parent container (80vh max height)
+      // populate modalDetails with the imageData corresponding
+      // to the clicked image, noted by its parent div's id
+      // const parentId = e.target.closest(".image-card").dataset.id
+      // const clickedImageDetails = imageData.filter(
+      //   image => image.id === parentId
+      // )[0]
+      //setModalDetails(clickedImageDetails)
     }
   }
 
-  // Extract image and video nodes from Airtable
-  // Videos may be null for a given project
-  const images = props.data.allAirtable.nodes[0].data.Images
-  const videos = props.data.allAirtable.nodes[0].data.Videos
-
-  const renderImageList = images.map((image, i) => {
+  const renderImageList = images.map(image => {
     // Using aspect ratio, calculate each image width
-    // given a fixed height of 200px
+    // given a fixed heights of 150px and 250px
     const aspectRatio =
       image.data.attachment.localFiles[0].childImageSharp.fluid.aspectRatio
     const widthSmall = 150 * aspectRatio
-
     const widthLarge = 250 * aspectRatio
 
     return (
@@ -92,7 +113,8 @@ const ProjectTemplate = props => {
         className="image-card"
         widthSmall={widthSmall}
         widthLarge={widthLarge}
-        key={i}
+        key={image.id}
+        data-id={image.id}
       >
         <figure className="image">
           <Img
@@ -137,9 +159,9 @@ const ProjectTemplate = props => {
               Press release
             </a>
           </header>
-          <div className="image-list" onClick={e => handleImageClick(e)}>
+          <section className="image-list" onClick={e => handleImageClick(e)}>
             {renderImageList}
-          </div>
+          </section>
           {videos && (
             <ul className="video-list">
               {videos.map((video, i) => (

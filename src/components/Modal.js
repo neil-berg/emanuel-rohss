@@ -1,4 +1,5 @@
 import React from "react"
+import Img from "gatsby-image"
 import styled from "styled-components"
 import { animated, useTransition } from "react-spring"
 
@@ -45,6 +46,12 @@ const Modal = ({ showModal, setShowModal, modalDetails }) => {
                         src={modalDetails.src}
                         alt={modalDetails.alt}
                       />
+                      {/* <figure className="card__image">
+                        <Img
+                          alt={modalDetails.title}
+                          fluid={modalDetails.fluid}
+                        />
+                      </figure> */}
                       <div>
                         <button
                           className="card__button"
