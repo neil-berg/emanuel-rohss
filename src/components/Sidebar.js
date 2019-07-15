@@ -130,8 +130,8 @@ const Sidebar = () => {
         <section className="contact">
           <FontAwesomeIcon icon={faEnvelope} size="2x" />
           <a
+            className="contact__email-link"
             href="mailto:emanuel.rohss@gmail.com"
-            style={{ marginLeft: "1rem", fontSize: "1.2em" }}
           >
             emanuel.rohss@gmail.com{" "}
           </a>
@@ -217,6 +217,11 @@ const SidebarWrapper = styled.div`
   .section__list-item-link {
     margin: 0;
     padding: 0;
+    text-decoration: none;
+  }
+
+  .section__list-item-link:visited {
+    color: blue;
   }
 
   .contact {
@@ -227,6 +232,11 @@ const SidebarWrapper = styled.div`
     padding: 1rem;
   }
 
+  .contact__email-link {
+    text-decoration: none;
+    margin-left: 1rem;
+    font-size: 1.2em;
+  }
   .clickbar {
     background: #0000ff;
     color: white;

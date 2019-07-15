@@ -28,6 +28,7 @@ export const query = graphql`
               image_title
               location
               materials
+              year(formatString: "YYYY")
               attachment {
                 localFiles {
                   childImageSharp {
@@ -68,14 +69,16 @@ const ProjectTemplate = props => {
 
   // Rearrange incoming image data to be an array of objects
   // with id and image details that will be used to create
-  // Gatsby Images for both the landing gallery and modal
+  // images for both the landing gallery and modal
   const imageData = images.map(image => ({
     id: image.id,
-    title: image.data.image_title,
+    dimensions: image.data.dimensions,
+    fluid: image.data.attachment.localFiles[0].childImageSharp.fluid,
     location: image.data.location,
     materials: image.data.materials,
+    title: image.data.image_title,
     view: image.data.view,
-    fluid: image.data.attachment.localFiles[0].childImageSharp.fluid,
+    year: image.data.year,
   }))
 
   // modalDetails stores src and alt attributes for a clicked image
@@ -85,18 +88,15 @@ const ProjectTemplate = props => {
 
   const handleImageClick = e => {
     if (e.target.nodeName === "IMG") {
+      // Obtain details on the clicked image based on the image's
+      // parent div's data-id attribute and append on the image src
+      // setModalDetails({ src: e.target.src, alt: e.target.alt })
+      const parentId = e.target.closest(".image-card").dataset.id
+      const clickedImageDetails = imageData.filter(
+        image => image.id === parentId
+      )[0]
       setShowModal(true)
-      setModalDetails({ src: e.target.src, alt: e.target.alt })
-      // TODO: Try to pass a gatsby image to the modal...
-      // props work but positioning the image continues to
-      // break past its parent container (80vh max height)
-      // populate modalDetails with the imageData corresponding
-      // to the clicked image, noted by its parent div's id
-      // const parentId = e.target.closest(".image-card").dataset.id
-      // const clickedImageDetails = imageData.filter(
-      //   image => image.id === parentId
-      // )[0]
-      //setModalDetails(clickedImageDetails)
+      setModalDetails({ ...clickedImageDetails, src: e.target.src })
     }
   }
 
@@ -163,18 +163,18 @@ const ProjectTemplate = props => {
             {renderImageList}
           </section>
           {videos && (
-            <ul className="video-list">
+            <section className="video-list">
               {videos.map((video, i) => (
                 <VideoCard key={i} video={video} />
               ))}
-            </ul>
+            </section>
           )}
           <nav className="pagination">
             {props.pageContext.previous && (
               <div className="pagination__previous">
                 <Link
                   className="pagination__previous-link"
-                  to={props.pageContext.previous.slug}
+                  to={`/${props.pageContext.previous.slug}`}
                 >
                   <FontAwesomeIcon
                     className="pagination__previous-icon"
@@ -191,7 +191,7 @@ const ProjectTemplate = props => {
               <div className="pagination__next">
                 <Link
                   className="pagination__next-link"
-                  to={props.pageContext.next.slug}
+                  to={`/${props.pageContext.next.slug}`}
                 >
                   <span className="pagination__next-text">
                     {props.pageContext.next.project_title}
@@ -222,6 +222,7 @@ const ImageCard = styled.div`
   width: ${props => props.widthSmall}px;
   display: inline-block;
   margin: 0.5rem;
+  cursor: zoom-in;
 
   @media screen and (min-width: 800px) {
     height: 250px;
