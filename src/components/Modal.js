@@ -146,15 +146,24 @@ const Container = styled.div`
     background: rgba(153, 153, 153, 0.75);
     width: 100%;
     color: white;
-    padding: 0.5em 1rem;
+    padding: 0.5em 1em;
     opacity: 0;
     transition: opacity 0.3s linear;
   }
 
-  .card__details p {
+  .card__details-title,
+  .card__details-year,
+  .card__details-materials,
+  .card__details-location,
+  .card__details-view,
+  .card__details-dimensions {
     margin: 0;
     padding: 0;
     font-size: 0.85em;
+  }
+
+  .card__details-title {
+    font-weight: bold;
   }
 
   @media (hover: hover) {
