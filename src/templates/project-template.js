@@ -84,7 +84,7 @@ const ProjectTemplate = props => {
   // modalDetails stores src and alt attributes for a clicked image
   // which is passed as a child img to <Modal />
   const [showModal, setShowModal] = useState(false)
-  const [modalDetails, setModalDetails] = useState({})
+  const [modalImages, setModalImages] = useState([])
 
   const handleImageClick = e => {
     if (e.target.nodeName === "IMG") {
@@ -92,11 +92,21 @@ const ProjectTemplate = props => {
       // parent div's data-id attribute and append on the image src
       // setModalDetails({ src: e.target.src, alt: e.target.alt })
       const parentId = e.target.closest(".image-card").dataset.id
-      const clickedImageDetails = imageData.filter(
-        image => image.id === parentId
-      )[0]
+      // const clickedImageDetails = imageData.filter(
+      //   image => image.id === parentId
+      // )[0]
+
+      // Rearrange the imageData array so the clicked image is the
+      // starting index
+      const startingIndex = imageData.map(image => image.id).indexOf(parentId)
+      const rearrangedImages = imageData
+        .slice(startingIndex)
+        .concat(imageData.slice(0, startingIndex))
+
+      // console.log(clickedImageDetails.fluid.src)
       setShowModal(true)
-      setModalDetails({ ...clickedImageDetails, src: e.target.src })
+      setModalImages(rearrangedImages)
+      // setModalDetails({ ...clickedImageDetails, src: e.target.src })
     }
   }
 
@@ -210,7 +220,7 @@ const ProjectTemplate = props => {
         <Modal
           showModal={showModal}
           setShowModal={setShowModal}
-          modalDetails={modalDetails}
+          modalImages={modalImages}
         />
       </Portal>
     </>

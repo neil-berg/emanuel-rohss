@@ -4,7 +4,9 @@ import { animated, useTransition } from "react-spring"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTimes } from "@fortawesome/free-solid-svg-icons"
 
-const Modal = ({ showModal, setShowModal, modalDetails }) => {
+import Carousel from "./Carousel"
+
+const Modal = ({ showModal, setShowModal, modalImages }) => {
   const backdropTransition = useTransition(showModal, null, {
     delay: 2,
     from: { opacity: 0 },
@@ -12,16 +14,22 @@ const Modal = ({ showModal, setShowModal, modalDetails }) => {
     leave: { opacity: 0 },
   })
 
-  const cardTransition = useTransition(showModal, null, {
+  // const cardTransition = useTransition(showModal, null, {
+  //   delay: 2,
+  //   from: { opacity: 0, transform: `scale(0.6)` },
+  //   enter: { opacity: 1, transform: `scale(1)` },
+  //   leave: { opacity: 0, transform: `scale(0.6)` },
+  // })
+  const transition = useTransition(showModal, null, {
     delay: 2,
-    from: { opacity: 0, transform: `scale(0.6)` },
-    enter: { opacity: 1, transform: `scale(1)` },
-    leave: { opacity: 0, transform: `scale(0.6)` },
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
   })
 
   return (
     <Container>
-      {backdropTransition.map(({ item, key, props: animation }) => {
+      {transition.map(({ item, key, props: animation }) => {
         return (
           item && (
             <animated.div
@@ -36,31 +44,33 @@ const Modal = ({ showModal, setShowModal, modalDetails }) => {
                 }
               }}
             >
-              {cardTransition.map(({ item, key, props: animation }) => {
+              {transition.map(({ item, key, props: animation }) => {
                 return (
                   item && (
                     <animated.div className="card" key={key} style={animation}>
-                      <img
-                        className="card__image"
-                        src={modalDetails.src}
-                        alt={modalDetails.title}
+                      <Carousel
+                        key={key}
+                        style={animation}
+                        modalImages={modalImages}
                       />
-                      {/* <figure className="card__image">
-                        <Img
-                          alt={modalDetails.title}
-                          fluid={modalDetails.fluid}
-                        />
-                      </figure> */}
                       <div>
                         <button
                           className="card__button"
                           onClick={() => setShowModal(false)}
                         >
-                          {/* <img
-                            className="card__button-svg"
-                            src={closeLogo}
-                            alt="Logo"
-                          /> */}
+                          <FontAwesomeIcon icon={faTimes} color="white" />
+                        </button>
+                      </div>
+                      {/* <img
+                        className="card__image"
+                        src={modalDetails.src}
+                        alt={modalDetails.title}
+                      />
+                      <div>
+                        <button
+                          className="card__button"
+                          onClick={() => setShowModal(false)}
+                        >
                           <FontAwesomeIcon icon={faTimes} color="white" />
                         </button>
                       </div>
@@ -83,7 +93,7 @@ const Modal = ({ showModal, setShowModal, modalDetails }) => {
                         <p className="card__details-dimensions">
                           {modalDetails.dimensions}
                         </p>
-                      </div>
+                      </div> */}
                     </animated.div>
                   )
                 )
@@ -114,7 +124,11 @@ const Container = styled.div`
   .card {
     position: relative;
     z-index: 201;
-    max-width: 960px;
+    // max-width: 960px;
+    // margin: 0 auto;
+    // width: 100%;
+    // height: 80vh;
+    // border: 1px red solid;
   }
 
   .card__button {
