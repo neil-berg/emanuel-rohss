@@ -11,14 +11,23 @@ const Carousel = ({ modalImages }) => {
   let reactSwipeEl
 
   const images = modalImages.map(image => (
-    <div className="carousel__image-container">
-      <img
-        className="carousel__image"
-        srcSet={image.fluid.srcSet}
-        alt={image.title}
-        key={image.id}
-      />
-    </div>
+    <figure className="carousel__image-container" key={image.id}>
+      <div className="carousel__image-container-inner">
+        <img
+          className="carousel__image"
+          srcSet={image.fluid.srcSet}
+          alt={image.title}
+        />
+        <figcaption className="image__caption">
+          <p className="caption-title">{image.title}</p>
+          <p className="caption-year">{image.year}</p>
+          <p className="caption-materials">{image.materials}</p>
+          <p className="caption-view">{image.view}</p>
+          <p className="caption-location">{image.location}</p>
+          <p className="caption-dimensions">{image.dimensions}</p>
+        </figcaption>
+      </div>
+    </figure>
   ))
 
   return (
@@ -31,8 +40,8 @@ const Carousel = ({ modalImages }) => {
       </button>
       <ReactSwipe
         className="carousel"
-        swipeOptions={{}}
         childCount={images.length}
+        swipeOptions={{}}
         ref={el => (reactSwipeEl = el)}
       >
         {images}
@@ -52,8 +61,13 @@ const CarouselContainer = styled.div`
   width: 100vw;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  //border: 1px yellow solid;
+
+  .carousel {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
   .carousel__button {
     display: flex;
@@ -70,17 +84,50 @@ const CarouselContainer = styled.div`
   }
 
   .carousel__image-container {
+    height: 100%;
+    width: auto;
     display: flex;
-    height: 100vh;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+  }
+
+  .carousel__image-container-inner {
+    position: relative;
   }
 
   .carousel__image {
     display: block;
-    //max-height: 600px;
     max-height: 60vh;
     width: auto;
-    margin: 0 auto;
+  }
+
+  .image__caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: rgba(153, 153, 153, 0.75);
+    width: 100%;
+    color: white;
+    padding: 0.5em 1em;
+    opacity: 0;
+    transition: opacity 0.3s linear;
+  }
+
+  .caption-title,
+  .caption-year,
+  .caption-materials,
+  .caption-view,
+  .caption-location,
+  .caption-dimensions {
+    margin: 0;
+    padding: 0;
+    font-size: 0.85em;
+    line-height: 1.25em;
+  }
+
+  .caption-title {
+    font-weight: bold;
   }
 
   @media screen and (min-width: 600px) {
@@ -88,6 +135,20 @@ const CarouselContainer = styled.div`
 
     .carousel__image {
       max-height: 80vh;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .carousel__button {
+      display: none;
+    }
+  }
+
+  @media (hover: hover) {
+    .carousel__image-container-inner:hover {
+      .image__caption {
+        opacity: 1;
+      }
     }
   }
 `

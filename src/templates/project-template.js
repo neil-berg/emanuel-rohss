@@ -81,20 +81,14 @@ const ProjectTemplate = props => {
     year: image.data.year,
   }))
 
-  // modalDetails stores src and alt attributes for a clicked image
-  // which is passed as a child img to <Modal />
   const [showModal, setShowModal] = useState(false)
   const [modalImages, setModalImages] = useState([])
 
   const handleImageClick = e => {
     if (e.target.nodeName === "IMG") {
       // Obtain details on the clicked image based on the image's
-      // parent div's data-id attribute and append on the image src
-      // setModalDetails({ src: e.target.src, alt: e.target.alt })
+      // parent div's data-id attribute
       const parentId = e.target.closest(".image-card").dataset.id
-      // const clickedImageDetails = imageData.filter(
-      //   image => image.id === parentId
-      // )[0]
 
       // Rearrange the imageData array so the clicked image is the
       // starting index
@@ -103,10 +97,8 @@ const ProjectTemplate = props => {
         .slice(startingIndex)
         .concat(imageData.slice(0, startingIndex))
 
-      // console.log(clickedImageDetails.fluid.src)
       setShowModal(true)
       setModalImages(rearrangedImages)
-      // setModalDetails({ ...clickedImageDetails, src: e.target.src })
     }
   }
 

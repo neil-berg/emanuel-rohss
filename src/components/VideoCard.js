@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 
-const VideoWrapper = styled.li`
+const VideoWrapper = styled.div`
   line-height: 1.1em;
   padding-top: 0.5rem;
 
