@@ -7,19 +7,6 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons"
 import Carousel from "./Carousel"
 
 const Modal = ({ showModal, setShowModal, modalImages }) => {
-  const backdropTransition = useTransition(showModal, null, {
-    delay: 2,
-    from: { opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
-  })
-
-  // const cardTransition = useTransition(showModal, null, {
-  //   delay: 2,
-  //   from: { opacity: 0, transform: `scale(0.6)` },
-  //   enter: { opacity: 1, transform: `scale(1)` },
-  //   leave: { opacity: 0, transform: `scale(0.6)` },
-  // })
   const transition = useTransition(showModal, null, {
     delay: 2,
     from: { opacity: 0 },
@@ -61,39 +48,6 @@ const Modal = ({ showModal, setShowModal, modalImages }) => {
                           <FontAwesomeIcon icon={faTimes} color="white" />
                         </button>
                       </div>
-                      {/* <img
-                        className="card__image"
-                        src={modalDetails.src}
-                        alt={modalDetails.title}
-                      />
-                      <div>
-                        <button
-                          className="card__button"
-                          onClick={() => setShowModal(false)}
-                        >
-                          <FontAwesomeIcon icon={faTimes} color="white" />
-                        </button>
-                      </div>
-                      <div className="card__details">
-                        <p className="card__details-title">
-                          {modalDetails.title}
-                        </p>
-                        <p className="card__details-year">
-                          {modalDetails.year}
-                        </p>
-                        <p className="card__details-materials">
-                          {modalDetails.materials}
-                        </p>
-                        <p className="card__details-view">
-                          {modalDetails.view}
-                        </p>
-                        <p className="card__details-location">
-                          {modalDetails.location}
-                        </p>
-                        <p className="card__details-dimensions">
-                          {modalDetails.dimensions}
-                        </p>
-                      </div> */}
                     </animated.div>
                   )
                 )
@@ -117,18 +71,13 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: rgba(0, 0, 0, 0.85);
     overflow: hidden;
   }
 
   .card {
     position: relative;
     z-index: 201;
-    // max-width: 960px;
-    // margin: 0 auto;
-    // width: 100%;
-    // height: 80vh;
-    // border: 1px red solid;
   }
 
   .card__button {
@@ -151,41 +100,6 @@ const Container = styled.div`
     width: auto;
     max-height: 80vh;
     position: relative;
-  }
-
-  .card__details {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background: rgba(153, 153, 153, 0.75);
-    width: 100%;
-    color: white;
-    padding: 0.5em 1em;
-    opacity: 0;
-    transition: opacity 0.3s linear;
-  }
-
-  .card__details-title,
-  .card__details-year,
-  .card__details-materials,
-  .card__details-location,
-  .card__details-view,
-  .card__details-dimensions {
-    margin: 0;
-    padding: 0;
-    font-size: 0.85em;
-  }
-
-  .card__details-title {
-    font-weight: bold;
-  }
-
-  @media (hover: hover) {
-    .card:hover {
-      .card__details {
-        opacity: 1;
-      }
-    }
   }
 `
 
