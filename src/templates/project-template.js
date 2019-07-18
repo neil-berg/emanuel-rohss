@@ -11,7 +11,6 @@ import PropTypes from "prop-types"
 
 import SEO from "../components/seo"
 import Layout from "../components/layout"
-// import ImageCard from "../components/ImageCard"
 import VideoCard from "../components/VideoCard"
 import Portal from "../components/Portal"
 import Modal from "../components/Modal"
@@ -279,6 +278,7 @@ const TemplateWrapper = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding-top: 4rem;
   }
 
   .pagination__previous,

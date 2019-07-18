@@ -253,6 +253,8 @@ const SidebarWrapper = styled.div`
     margin: 0;
     padding: 0;
     font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+    font-style: italic;
     text-transform: uppercase;
     font-size: 1.35em;
   }

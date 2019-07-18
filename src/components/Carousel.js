@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useEffect, useRef } from "react"
+import Img from "gatsby-image"
 import ReactSwipe from "react-swipe"
 import styled from "styled-components"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -8,6 +9,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 
 const Carousel = ({ modalImages }) => {
+  // Focus <CarouselContainer> on mount to allow for
+  // arrow left and arrow right keys to toggle images
+  const carouselRef = useRef(null)
+  useEffect(() => {
+    carouselRef.current.focus()
+  }, [])
+
   let reactSwipeEl
 
   const images = modalImages.map(image => (
@@ -17,6 +25,7 @@ const Carousel = ({ modalImages }) => {
           className="carousel__image"
           srcSet={image.fluid.srcSet}
           alt={image.title}
+          onClick={() => reactSwipeEl.next()}
         />
         <figcaption className="image__caption">
           <p className="caption-title">{image.title}</p>
@@ -31,7 +40,17 @@ const Carousel = ({ modalImages }) => {
   ))
 
   return (
-    <CarouselContainer>
+    <CarouselContainer
+      ref={carouselRef}
+      tabIndex="0"
+      onKeyDown={e => {
+        if (e.key === "ArrowLeft") {
+          reactSwipeEl.prev()
+        } else if (e.key === "ArrowRight") {
+          reactSwipeEl.next()
+        }
+      }}
+    >
       <button className="carousel__button" onClick={() => reactSwipeEl.prev()}>
         <FontAwesomeIcon
           className="carousel__button-icon"
@@ -62,6 +81,10 @@ const CarouselContainer = styled.div`
   display: flex;
   align-items: center;
 
+  &:focus {
+    outline: 0;
+  }
+
   .carousel {
     height: 100%;
     display: flex;
@@ -76,6 +99,7 @@ const CarouselContainer = styled.div`
     background: transparent;
     border: transparent;
     margin: 0.5rem;
+    cursor: pointer;
   }
 
   .carousel__button-icon {
