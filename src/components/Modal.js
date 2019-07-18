@@ -35,11 +35,7 @@ const Modal = ({ showModal, setShowModal, modalImages }) => {
                 return (
                   item && (
                     <animated.div className="card" key={key} style={animation}>
-                      <Carousel
-                        key={key}
-                        style={animation}
-                        modalImages={modalImages}
-                      />
+                      <Carousel key={key} modalImages={modalImages} />
                       <div>
                         <button
                           className="card__button"
