@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { animated, useTransition } from "react-spring"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTimes } from "@fortawesome/free-solid-svg-icons"
+import propTypes from "prop-types"
 
 import Carousel from "./Carousel"
 
@@ -98,5 +99,11 @@ const Container = styled.div`
     position: relative;
   }
 `
+
+Modal.propTypes = {
+  showModal: propTypes.bool.isRequired,
+  setShowModal: propTypes.func.isRequired,
+  modalImages: propTypes.array.isRequired,
+}
 
 export default Modal

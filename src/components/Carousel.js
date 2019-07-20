@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react"
-import Img from "gatsby-image"
 import ReactSwipe from "react-swipe"
 import styled from "styled-components"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -7,6 +6,7 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons"
+import PropTypes from "prop-types"
 
 const Carousel = ({ modalImages }) => {
   // Focus <CarouselContainer> on mount to allow for
@@ -176,5 +176,9 @@ const CarouselContainer = styled.div`
     }
   }
 `
+
+Carousel.propTypes = {
+  modalImages: PropTypes.array.isRequired,
+}
 
 export default Carousel

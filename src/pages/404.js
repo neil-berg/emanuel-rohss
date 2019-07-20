@@ -4,6 +4,7 @@ import { Link, graphql } from "gatsby"
 import Img from "gatsby-image"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLongArrowAltLeft } from "@fortawesome/free-solid-svg-icons"
+import PropTypes from "prop-types"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -78,5 +79,13 @@ const NotFoundContainer = styled.div`
     font-size: 2em;
   }
 `
+
+NotFoundPage.propTypes = {
+  data: PropTypes.shape({
+    allFile: PropTypes.shape({
+      edges: PropTypes.array.isRequired,
+    }),
+  }),
+}
 
 export default NotFoundPage
