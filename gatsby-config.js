@@ -24,23 +24,23 @@ module.exports = {
         apiKey: process.env.AIRTABLE_API_KEY,
         tables: [
           {
-            baseId: "app4AeEFIvxVmE8jA",
+            baseId: process.env.AIRTABLE_BASE_ID,
             tableName: "Images",
             mapping: { attachment: `fileNode` },
           },
           {
-            baseId: "app4AeEFIvxVmE8jA",
+            baseId: process.env.AIRTABLE_BASE_ID,
             tableName: "Videos",
             mapping: { attachment: `fileNode` },
           },
           {
-            baseId: "app4AeEFIvxVmE8jA",
+            baseId: process.env.AIRTABLE_BASE_ID,
             tableName: "Projects",
             tableLinks: ["Images", "Videos"],
             mapping: { cover_photo: `fileNode` },
           },
           {
-            baseId: "app4AeEFIvxVmE8jA",
+            baseId: process.env.AIRTABLE_BASE_ID,
             tableName: "CV",
           },
         ],
