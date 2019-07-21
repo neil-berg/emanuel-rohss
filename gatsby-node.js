@@ -14,6 +14,7 @@ exports.createPages = async ({ actions, graphql }) => {
             press_release {
               url
             }
+            description
           }
         }
       }
@@ -34,6 +35,7 @@ exports.createPages = async ({ actions, graphql }) => {
         slug: project.data.slug,
         projectTitle: project.data.project_title,
         pressRelease: project.data.press_release[0].url,
+        description: project.data.description,
         previous,
         next,
       },

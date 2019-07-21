@@ -141,15 +141,8 @@ const ProjectTemplate = props => {
           </Link>
           <header className="header">
             <h1 className="header__title">{props.pageContext.projectTitle}</h1>
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquam
-              dolores ratione, debitis perspiciatis ducimus neque velit iusto
-              sed quisquam quae molestiae earum saepe alias. Exercitationem modi
-              deserunt necessitatibus eligendi animi!Officia consequuntur
-              consectetur nesciunt id quod aspernatur aut porro voluptatem
-              voluptates expedita nostrum facilis, deserunt magnam eligendi
-              nulla asperiores ab vero eos! Temporibus voluptatum officiis
-              dolores similique dicta expedita nostrum.
+            <p className="header__description">
+              {props.pageContext.description}
             </p>
             <a
               className="header__press-release"
