@@ -27,7 +27,7 @@ export const query = graphql`
               image_title
               location
               materials
-              year(formatString: "YYYY")
+              year
               attachment {
                 localFiles {
                   childImageSharp {
@@ -49,7 +49,7 @@ export const query = graphql`
                 }
               }
               video_title
-              year(formatString: "YYYY")
+              year
               materials
               length
               dimensions
@@ -164,23 +164,6 @@ const ProjectTemplate = props => {
             </section>
           )}
           <nav className="pagination">
-            {props.pageContext.previous && (
-              <div className="pagination__previous">
-                <Link
-                  className="pagination__previous-link"
-                  to={`/${props.pageContext.previous.slug}`}
-                >
-                  <FontAwesomeIcon
-                    className="pagination__previous-icon"
-                    icon={faLongArrowAltLeft}
-                  />
-                  <span className="pagination__previous-text">
-                    {props.pageContext.previous.project_title}
-                  </span>
-                </Link>
-              </div>
-            )}
-            {!props.pageContext.previous && <div />}
             {props.pageContext.next && (
               <div className="pagination__next">
                 <Link
@@ -194,6 +177,22 @@ const ProjectTemplate = props => {
                     className="pagination__next-icon"
                     icon={faLongArrowAltRight}
                   />
+                </Link>
+              </div>
+            )}
+            {props.pageContext.previous && (
+              <div className="pagination__previous">
+                <Link
+                  className="pagination__previous-link"
+                  to={`/${props.pageContext.previous.slug}`}
+                >
+                  <FontAwesomeIcon
+                    className="pagination__previous-icon"
+                    icon={faLongArrowAltLeft}
+                  />
+                  <span className="pagination__previous-text">
+                    {props.pageContext.previous.project_title}
+                  </span>
                 </Link>
               </div>
             )}
@@ -212,15 +211,16 @@ const ProjectTemplate = props => {
 }
 
 const ImageCard = styled.div`
-  height: 150px;
-  width: ${props => props.widthSmall}px;
+  width: 100%;
+  height: auto;
   display: inline-block;
-  margin: 0.5rem;
+  margin-bottom: 4rem;
   cursor: zoom-in;
 
   @media screen and (min-width: 800px) {
     height: 250px;
     width: ${props => props.widthLarge}px;
+    margin: 0.5rem;
   }
 `
 
@@ -233,6 +233,7 @@ const TemplateWrapper = styled.div`
   .home-link {
     display: flex;
     align-items: center;
+    width: 120px;
     text-decoration: none;
     padding-bottom: 1rem;
   }
@@ -269,15 +270,18 @@ const TemplateWrapper = styled.div`
 
   .pagination {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-top: 4rem;
+    flex-direction: column;
   }
 
   .pagination__previous,
   .pagination__next {
     display: flex;
     align-items: center;
+  }
+
+  .pagination__next {
+    align-self: flex-end;
+    margin-bottom: 1.5rem;
   }
 
   .pagination__previous-link,
