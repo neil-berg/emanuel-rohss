@@ -17,7 +17,7 @@ const Sidebar = () => {
             link_text
             link_url
             text
-            year(formatString: "YYYY")
+            year
           }
         }
       }
