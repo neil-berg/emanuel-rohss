@@ -269,6 +269,7 @@ const TemplateWrapper = styled.div`
   }
 
   .pagination {
+    padding-top: 1rem;
     display: flex;
     flex-direction: column;
   }
