@@ -18,26 +18,33 @@ const Carousel = ({ modalImages }) => {
 
   let reactSwipeEl
 
-  const images = modalImages.map(image => (
-    <figure className="carousel__image-container" key={image.id}>
-      <div className="carousel__image-container-inner">
-        <img
-          className="carousel__image"
-          srcSet={image.fluid.srcSet}
-          alt={image.title}
-          onClick={() => reactSwipeEl.next()}
-        />
-        <figcaption className="image__caption">
-          <p className="caption-title">{image.title}</p>
-          <p className="caption-year">{image.year}</p>
-          <p className="caption-materials">{image.materials}</p>
-          <p className="caption-view">{image.view}</p>
-          <p className="caption-location">{image.location}</p>
-          <p className="caption-dimensions">{image.dimensions}</p>
-        </figcaption>
-      </div>
-    </figure>
-  ))
+  const images = modalImages.map(image => {
+    if (image.fluid) {
+      return (
+        <figure className="carousel__image-container" key={image.id}>
+          <div className="carousel__image-container-inner">
+            <img
+              className="carousel__image"
+              srcSet={image.fluid.srcSet}
+              alt={image.title}
+              onClick={() => reactSwipeEl.next()}
+            />
+            <figcaption className="image__caption">
+              <p className="caption-title">{image.title}</p>
+              <p className="caption-year">{image.year}</p>
+              <p className="caption-materials">{image.materials}</p>
+              <p className="caption-view">{image.view}</p>
+              <p className="caption-location">{image.location}</p>
+              <p className="caption-dimensions">{image.dimensions}</p>
+              {image.photographer && 
+                <p className="caption-dimensions">Photographed by {image.photographer}</p>
+              }
+            </figcaption>
+          </div>
+        </figure>
+      )
+    } 
+  })
 
   return (
     <CarouselContainer

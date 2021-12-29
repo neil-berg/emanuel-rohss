@@ -27,6 +27,7 @@ export const query = graphql`
               image_title
               location
               materials
+              photographer
               year
               attachment {
                 localFiles {
@@ -72,12 +73,13 @@ const ProjectTemplate = props => {
   const imageData = images.map(image => ({
     id: image.id,
     dimensions: image.data.dimensions,
-    fluid: image.data.attachment.localFiles[0].childImageSharp.fluid,
+    fluid: image.data.attachment.localFiles[0] ? image.data.attachment.localFiles[0].childImageSharp.fluid : null,
     location: image.data.location,
     materials: image.data.materials,
     title: image.data.image_title,
     view: image.data.view,
     year: image.data.year,
+    photographer: image.data.photographer,
   }))
 
   const [showModal, setShowModal] = useState(false)
@@ -102,6 +104,9 @@ const ProjectTemplate = props => {
   }
 
   const renderImageList = images.map(image => {
+    if (!image.data.attachment.localFiles[0]) {
+      return null
+    }
     // Using aspect ratio, calculate each image width
     // given a fixed heights of 150px and 250px
     const aspectRatio =
@@ -144,14 +149,16 @@ const ProjectTemplate = props => {
             <p className="header__description">
               {props.pageContext.description}
             </p>
-            <a
-              className="header__press-release"
-              href={props.pageContext.pressRelease}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Press release
-            </a>
+            {props.pageContext.pressRelease &&
+              <a
+                className="header__press-release"
+                href={props.pageContext.pressRelease}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Press release
+              </a>
+            }
           </header>
           <section className="image-list" onClick={e => handleImageClick(e)}>
             {renderImageList}
