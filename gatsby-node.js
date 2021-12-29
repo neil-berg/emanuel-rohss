@@ -34,7 +34,7 @@ exports.createPages = async ({ actions, graphql }) => {
       context: {
         slug: project.data.slug,
         projectTitle: project.data.project_title,
-        pressRelease: project.data.press_release[0].url,
+        pressRelease: project.data.press_release ? project.data.press_release[0].url : '',
         description: project.data.description,
         previous,
         next,

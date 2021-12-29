@@ -74,10 +74,12 @@ const IndexPage = ({ data }) => {
     <li className="project-item" key={node.recordId}>
       <Link className="project-item__link" to={`/${node.data.slug}`}>
         <h2 className="project-item__title">{node.data.project_title}</h2>
-        <Img
-          alt={node.data.project_title}
-          fluid={node.data.cover_photo.localFiles[0].childImageSharp.fluid}
-        />
+        {node.data.cover_photo.localFiles[0] && 
+          <Img
+            alt={node.data.project_title}
+            fluid={node.data.cover_photo.localFiles[0].childImageSharp.fluid}
+          />
+        }
       </Link>
     </li>
   ))
