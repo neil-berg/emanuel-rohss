@@ -1,11 +1,11 @@
 import React, { useState } from "react"
-import { graphql, Link } from "gatsby"
+import { Link, graphql } from "gatsby"
 import Img from "gatsby-image"
 import styled from "styled-components"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
-  faLongArrowAltRight,
   faLongArrowAltLeft,
+  faLongArrowAltRight,
 } from "@fortawesome/free-solid-svg-icons"
 import PropTypes from "prop-types"
 
@@ -73,7 +73,9 @@ const ProjectTemplate = props => {
   const imageData = images.map(image => ({
     id: image.id,
     dimensions: image.data.dimensions,
-    fluid: image.data.attachment.localFiles[0] ? image.data.attachment.localFiles[0].childImageSharp.fluid : null,
+    fluid: image.data.attachment.localFiles[0]
+      ? image.data.attachment.localFiles[0].childImageSharp.fluid
+      : null,
     location: image.data.location,
     materials: image.data.materials,
     title: image.data.image_title,
@@ -149,7 +151,7 @@ const ProjectTemplate = props => {
             <p className="header__description">
               {props.pageContext.description}
             </p>
-            {props.pageContext.pressRelease &&
+            {props.pageContext.pressRelease && (
               <a
                 className="header__press-release"
                 href={props.pageContext.pressRelease}
@@ -158,7 +160,7 @@ const ProjectTemplate = props => {
               >
                 Press release
               </a>
-            }
+            )}
           </header>
           <section className="image-list" onClick={e => handleImageClick(e)}>
             {renderImageList}
